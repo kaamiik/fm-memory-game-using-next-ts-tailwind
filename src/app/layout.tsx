@@ -19,7 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${atkinson.className} antialiased`}>{children}</body>
+      <body
+        className={`${atkinson.className} antialiased text-300 md:text-450 text-blue-muted`}
+      >
+        {children}
+      </body>
     </html>
   );
 }
