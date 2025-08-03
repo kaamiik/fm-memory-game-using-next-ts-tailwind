@@ -1,26 +1,29 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme {
+  /* Colors */
+  --color-yellow: hsl(37, 98%, 54%);
+  --color-yellow-light: hsl(37, 100%, 65%);
+  --color-blue-light: hsl(203, 28%, 79%);
+  --color-blue-dark: hsl(205, 30%, 27%);
+  --color-blue-darker: hsl(206, 45%, 15%);
+  --color-blue-muted: hsl(203, 22%, 55%);
+  --color-blue-medium: hsl(205, 37%, 55%);
+  --color-gray-light: hsl(0, 0%, 95%);
+  --color-gray-lighter: hsl(0, 0%, 99%);
+  /* Font Size */
+  --text-300: 0.875rem;
+  --text-350: 0.9375rem;
+  --text-400: 1rem;
+  --text-450: 1.125rem;
+  --text-500: 1.25rem;
+  --text-600: 1.5rem;
+  --text-650: 1.625rem;
+  --text-700: 2rem;
+  --text-800: 2.5rem;
+  --text-850: 2.75rem;
+  --text-900: 3rem;
+  --text-950: 3.5rem;
+  /* Breakpoints */
+  --breakpoint-sm: 35rem;
 }
