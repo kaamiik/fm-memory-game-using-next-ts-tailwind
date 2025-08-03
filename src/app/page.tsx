@@ -1,64 +1,13 @@
+import GameSetting from "@/components/GameSetting";
+
 function Home() {
   return (
-    <div>
-      <h1>Hello World</h1>
-      {/* <!-- Game setup start -->
-
-       Select Theme
-       Numbers
-       Icons
-
-       Number of Players
-       1
-       2
-       3
-       4
-     
-       Grid Size
-       4x4
-       6x6
-     
-       Start Game
-     
-       <!-- Game setup end -->
-     
-       <!-- Game board start -->
-     
-       Restart
-       New Game
-     
-       <!-- Multiplayer scores start -->
-     
-       Player 1
-       <!-- P1 score -->
-       Current Turn
-     
-       Player 2
-       <!-- P2 score -->
-       Current Turn
-     
-       Player 3
-       <!-- P3 score -->
-       Current Turn
-     
-       Player 4
-       <!-- P4 score -->
-       Current Turn
-     
-       <!-- Multiplayer scores start -->
-     
-       <!-- Solo game time and moves counter start -->
-     
-       Time
-       <!-- Time elapsed -->
-
-       Moves
-       <!-- Moves total -->
-     
-       <!-- Solo game time and moves counter end -->
-     
-       <!-- Game board end --> */}
-    </div>
+    <main className="bg-blue-darker min-h-dvh p-6 flex flex-col gap-11 sm:gap-[4.6875rem] justify-center">
+      <h1 className="text-700 sm:text-800 text-gray-lighter text-center">
+        memory <span className="sr-only">game</span>
+      </h1>
+      <GameSetting />
+    </main>
   );
 }
 
