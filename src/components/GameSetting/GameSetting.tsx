@@ -1,14 +1,52 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
+
 import Fieldset from "@/components/Fieldset";
 import GameButton from "@/components/GameButton";
 import Option from "@/components/Option";
 
+type GameSettings = {
+  theme: "numbers" | "icons";
+  playersNum: "solo" | "two" | "three" | "four";
+  grid: "four-by-four" | "six-by-six";
+};
+
 function GameSetting({ className = "" }: { className?: string }) {
+  const router = useRouter();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+
+    const data: GameSettings = {
+      theme: formData.get("theme") as "numbers" | "icons",
+      playersNum: formData.get("playersNum") as
+        | "solo"
+        | "two"
+        | "three"
+        | "four",
+      grid: formData.get("grid") as "four-by-four" | "six-by-six",
+    };
+
+    // console.log("Form Data:", data);
+    // console.log("Theme:", data.theme);
+    // console.log("Number of Players:", data["players-num"]);
+    // console.log("Grid Size:", data.grid);
+
+    const params = new URLSearchParams();
+    params.set("theme", data.theme);
+    params.set("playersNum", data.playersNum); // Changed URL param too
+    params.set("grid", data.grid);
+
+    router.push(`?${params.toString()}`);
+  };
+
   return (
     <form
-      onSubmit={(e) => e.preventDefault()}
+      onSubmit={handleSubmit}
       className={`max-w-[40.875rem] w-full mx-auto p-6 sm:p-14 bg-gray-lighter rounded-[10px] sm:rounded-[20px] ${className}`}
     >
       <div className="flex flex-col gap-6 sm:gap-8">
@@ -18,13 +56,10 @@ function GameSetting({ className = "" }: { className?: string }) {
         </Fieldset>
 
         <Fieldset legend="Numbers of Players">
-          <Option name="players-num" id="solo" label="1" defaultChecked />
-
-          <Option name="players-num" id="two" label="2" />
-
-          <Option name="players-num" id="three" label="3" />
-
-          <Option name="players-num" id="four" label="4" />
+          <Option name="playersNum" id="solo" label="1" defaultChecked />
+          <Option name="playersNum" id="two" label="2" />
+          <Option name="playersNum" id="three" label="3" />
+          <Option name="playersNum" id="four" label="4" />
         </Fieldset>
 
         <Fieldset legend="Grid Size">
