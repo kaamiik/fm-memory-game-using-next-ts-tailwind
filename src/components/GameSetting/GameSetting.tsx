@@ -21,25 +21,17 @@ function GameSetting({ className = "" }: { className?: string }) {
 
     const formData = new FormData(e.currentTarget);
 
-    const data: GameSettings = {
-      theme: formData.get("theme") as "numbers" | "icons",
-      playersNum: formData.get("playersNum") as
-        | "solo"
-        | "two"
-        | "three"
-        | "four",
-      grid: formData.get("grid") as "four-by-four" | "six-by-six",
-    };
-
-    // console.log("Form Data:", data);
-    // console.log("Theme:", data.theme);
-    // console.log("Number of Players:", data["players-num"]);
-    // console.log("Grid Size:", data.grid);
-
+    const data = {
+      theme: formData.get("theme"),
+      playersNum: formData.get("playersNum"),
+      grid: formData.get("grid"),
+    } as GameSettings;
     const params = new URLSearchParams();
     params.set("theme", data.theme);
-    params.set("playersNum", data.playersNum); // Changed URL param too
+    params.set("playersNum", data.playersNum);
     params.set("grid", data.grid);
+
+    console.log(params.toString());
 
     router.push(`?${params.toString()}`);
   };
