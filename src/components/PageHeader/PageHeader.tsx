@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import GameButton from "../GameButton";
+import GameDialog from "../GameDialog";
 
 function PageHeader() {
   const dialogRef = React.useRef<HTMLDialogElement>(null);
@@ -13,6 +14,16 @@ function PageHeader() {
 
   function closeDialog() {
     dialogRef.current?.close();
+  }
+
+  function handleRestart() {
+    console.log("Restart game");
+    closeDialog();
+  }
+
+  function handleNewGame() {
+    console.log("New game");
+    closeDialog();
   }
 
   return (
@@ -44,37 +55,24 @@ function PageHeader() {
           <GameButton
             type="button"
             className="py-3.5 px-7 bg-yellow text-500 text-gray-lighter hover:bg-yellow-light focus-visible:bg-yellow-light"
+            onClick={handleRestart}
           >
             Restart
           </GameButton>
           <GameButton
             type="button"
             className="py-3.5 px-6 bg-blue-light text-500 text-blue-dark hover:bg-blue-medium hover:text-gray-lighter focus-visible:bg-blue-medium focus-visible:text-gray-lighter"
+            onClick={handleNewGame}
           >
             New Game
           </GameButton>
         </div>
       </div>
-      <dialog
-        className="w-full p-6 text-blue-dark text-450 flex flex-col gap-4 rounded-[10px] mx-auto my-auto backdrop:bg-black backdrop:opacity-50"
+      <GameDialog
         ref={dialogRef}
-      >
-        <GameButton
-          autoFocus
-          className="w-full p-3 rounded-full bg-blue-lighter focus-visible:bg-yellow focus-visible:text-gray-lighter"
-        >
-          Restart
-        </GameButton>
-        <GameButton className="w-full p-3 rounded-full bg-blue-lighter">
-          New Game
-        </GameButton>
-        <GameButton
-          className="w-full p-3 rounded-full bg-blue-lighter"
-          onClick={closeDialog}
-        >
-          Resume Game
-        </GameButton>
-      </dialog>
+        onRestart={handleRestart}
+        onNewGame={handleNewGame}
+      />
     </header>
   );
 }
