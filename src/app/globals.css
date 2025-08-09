@@ -4,6 +4,7 @@
   /* Colors */
   --color-yellow: hsl(37, 98%, 54%);
   --color-yellow-light: hsl(37, 100%, 65%);
+  --color-blue-lighter: hsl(203, 25%, 90%);
   --color-blue-light: hsl(203, 28%, 79%);
   --color-blue-dark: hsl(205, 30%, 27%);
   --color-blue-darker: hsl(206, 45%, 15%);
@@ -25,5 +26,6 @@
   --text-900: 3rem;
   --text-950: 3.5rem;
   /* Breakpoints */
-  --breakpoint-sm: 35rem;
+  --breakpoint-sm: 37rem;
+  --breakpoint-xl: 70rem;
 }
