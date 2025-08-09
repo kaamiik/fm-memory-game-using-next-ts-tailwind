@@ -1,12 +1,14 @@
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import GameButton from "../GameButton";
 import GameDialog from "../GameDialog";
 
 function PageHeader() {
   const dialogRef = React.useRef<HTMLDialogElement>(null);
+  const router = useRouter();
 
   function openDialog() {
     dialogRef.current?.showModal();
@@ -17,6 +19,7 @@ function PageHeader() {
   }
 
   function handleRestart() {
+    // Reset game state, scores, timer, etc.
     console.log("Restart game");
     closeDialog();
   }
@@ -24,6 +27,7 @@ function PageHeader() {
   function handleNewGame() {
     console.log("New game");
     closeDialog();
+    router.replace("/");
   }
 
   return (
