@@ -28,4 +28,7 @@
   /* Breakpoints */
   --breakpoint-sm: 37rem;
   --breakpoint-xl: 70rem;
+  /* Grid */
+  --my-grid-4x4: repeat(4, minmax(2.75rem, 7.375rem));
+  --my-grid-6x6: repeat(6, minmax(2.25rem, 5.125rem));
 }

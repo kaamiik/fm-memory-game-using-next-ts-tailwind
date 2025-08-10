@@ -53,11 +53,11 @@ function GameSetting({ className = "" }: { className?: string }) {
         </Fieldset>
 
         <Fieldset legend="Grid Size">
-          <Option name="grid" id="four-by-four" defaultChecked>
+          <Option name="grid" id="4x4" defaultChecked>
             <span className="sr-only">4 by 4</span>
             <span aria-hidden="true">4x4</span>
           </Option>
-          <Option name="grid" id="six-by-six">
+          <Option name="grid" id="6x6">
             <span className="sr-only">6 by 6</span>
             <span aria-hidden="true">6x6</span>
           </Option>

@@ -31,7 +31,7 @@ function PageHeader() {
   }
 
   return (
-    <header className="p-6 sm:px-10 sm:py-9 lg:p-16 xl:px-0 bg-gray-lighter">
+    <header className="p-6 sm:p-10 lg:p-[4.25rem] xl:px-0 bg-gray-lighter">
       <div className="max-w-[69.375rem] mx-auto flex flex-wrap items-center justify-between">
         <Link
           className="focus-visible:outline-2 focus-visible:outline-blue-500 focus-visible:outline-offset-2 focus-visible:outline-dotted"
