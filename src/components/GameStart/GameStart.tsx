@@ -16,7 +16,7 @@ function GameStart() {
     return (
       <>
         <PageHeader />
-        <main className="bg-gray-lighter p-6 sm:p-10 lg:p-9 xl:px-0 grid">
+        <main className="p-6 sm:p-10 lg:p-9 xl:px-0 grid">
           <CardGrid gridSize={gridSize} />
 
           {playersNum === 1 ? (
