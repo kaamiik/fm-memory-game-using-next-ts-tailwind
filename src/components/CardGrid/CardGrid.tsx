@@ -28,7 +28,7 @@ function CardGrid({ gridSize }: CardGridProps) {
 
   return (
     <div
-      className={`grid ${gridConfig.cols} ${gridConfig.gap} ${gridConfig.maxWidth} ${gridConfig.margin}`}
+      className={`grid mx-auto ${gridConfig.cols} ${gridConfig.gap} ${gridConfig.maxWidth} ${gridConfig.margin}`}
     >
       {Array.from({ length: gridConfig.buttonCount }, (_, index) => (
         <CardButton

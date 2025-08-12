@@ -7,7 +7,7 @@ import Option from "@/components/Option";
 
 type GameSettings = {
   theme: "numbers" | "icons";
-  playersNum: "solo" | "two" | "three" | "four";
+  playersNum: "1" | "2" | "3" | "4";
   grid: "four-by-four" | "six-by-six";
 };
 
@@ -24,12 +24,11 @@ function GameSetting({ className = "" }: { className?: string }) {
       playersNum: formData.get("playersNum"),
       grid: formData.get("grid"),
     } as GameSettings;
+
     const params = new URLSearchParams();
     params.set("theme", data.theme);
     params.set("playersNum", data.playersNum);
     params.set("grid", data.grid);
-
-    console.log(params.toString());
 
     router.push(`?${params.toString()}`);
   };
@@ -46,10 +45,10 @@ function GameSetting({ className = "" }: { className?: string }) {
         </Fieldset>
 
         <Fieldset legend="Numbers of Players">
-          <Option name="playersNum" id="solo" label="1" defaultChecked />
-          <Option name="playersNum" id="two" label="2" />
-          <Option name="playersNum" id="three" label="3" />
-          <Option name="playersNum" id="four" label="4" />
+          <Option name="playersNum" id="1" label="1" defaultChecked />
+          <Option name="playersNum" id="2" label="2" />
+          <Option name="playersNum" id="3" label="3" />
+          <Option name="playersNum" id="4" label="4" />
         </Fieldset>
 
         <Fieldset legend="Grid Size">
