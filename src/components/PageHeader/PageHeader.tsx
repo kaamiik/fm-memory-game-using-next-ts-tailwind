@@ -65,7 +65,7 @@ function PageHeader() {
           </GameButton>
           <GameButton
             type="button"
-            className="py-3.5 px-6 bg-blue-light text-500 text-blue-dark hover:bg-blue-medium hover:text-gray-lighter focus-visible:bg-blue-medium focus-visible:text-gray-lighter"
+            className="py-3.5 px-6 bg-blue-lighter text-500 text-blue-dark hover:bg-blue-medium hover:text-gray-lighter focus-visible:bg-blue-medium focus-visible:text-gray-lighter"
             onClick={handleNewGame}
           >
             New Game
