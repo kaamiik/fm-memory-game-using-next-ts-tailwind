@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation";
 
 import GameButton from "../GameButton";
 import GameDialog from "../GameDialog";
+import { useGameActions } from "@/context/GameActionsContext";
 
 function PageHeader() {
   const dialogRef = React.useRef<HTMLDialogElement>(null);
   const router = useRouter();
+  const { restart } = useGameActions();
 
   function openDialog() {
     dialogRef.current?.showModal();
@@ -19,13 +21,11 @@ function PageHeader() {
   }
 
   function handleRestart() {
-    // Reset game state, scores, timer, etc.
-    console.log("Restart game");
+    restart();
     closeDialog();
   }
 
   function handleNewGame() {
-    console.log("New game");
     closeDialog();
     router.replace("/");
   }

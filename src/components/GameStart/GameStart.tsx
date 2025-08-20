@@ -8,7 +8,8 @@ import ScoreBoard from "../ScoreBoard";
 import useTimer from "@/hooks/useTimer";
 import type { Card } from "@/types/gameTypes";
 import { generateCards } from "@/utils";
-import GameButton from "../GameButton";
+import GameOverDialog from "../GameOverDialog";
+import { GameActionsProvider } from "@/context/GameActionsContext";
 
 function GameStart() {
   const isGameStarted = useIsGameStarted();
@@ -25,10 +26,19 @@ function GameStart() {
   const isGameOver = cards.length > 0 && cards.every((card) => card.isMatched);
 
   React.useEffect(() => {
+    let interval: NodeJS.Timeout | undefined;
     if (isGameOver) {
       stop();
-      dialogRef.current?.showModal();
+      interval = setTimeout(() => {
+        dialogRef.current?.showModal();
+      }, 500);
     }
+
+    return () => {
+      if (interval) {
+        clearTimeout(interval);
+      }
+    };
   }, [isGameOver, stop]);
 
   React.useEffect(() => {
@@ -39,6 +49,14 @@ function GameStart() {
       if (playersNum === 1) start();
     }
   }, [isGameStarted, playersNum, gridSize, reset, start]);
+
+  function handleRestart() {
+    dialogRef.current?.close();
+    setCards(generateCards(gridSize));
+    setMoves(0);
+    reset();
+    if (playersNum === 1) start();
+  }
 
   function handleCardClick(clickedCard: Card) {
     if (clickedCard.isFlipped || clickedCard.isMatched) return;
@@ -81,7 +99,7 @@ function GameStart() {
 
   if (isGameStarted) {
     return (
-      <>
+      <GameActionsProvider value={{ restart: handleRestart }}>
         <PageHeader />
         <main className="p-6 sm:p-10 lg:p-9 xl:px-0 grid">
           <CardGrid
@@ -99,47 +117,16 @@ function GameStart() {
               activePlayerId={1}
             />
           )}
-          <dialog
-            className="w-full max-w-[40.875rem] mx-auto my-auto backdrop:bg-black backdrop:opacity-50 border-0 bg-transparent"
+
+          <GameOverDialog
             ref={dialogRef}
-          >
-            <div className="grid gap-6 sm:gap-10 pt-8 sm:pt-[3.25rem] pb-6 sm:pb-[4.25rem] px-6 sm:px-14 mx-6 rounded-[10px] sm:rounded[20px] text-blue-muted bg-gray-light">
-              <div className="text-center">
-                <h2 className="text-600 sm:text-900 text-blue-darker">
-                  You did it!
-                </h2>
-                <p>Game over! Here’s how you got on…</p>
-              </div>
-              <div className="grid gap-2 sm:gap-4">
-                <div className="bg-blue-lighter py-4 px-4 sm:px-8 flex justify-between items-center rounded-[5px] sm:rounded-[10px]">
-                  <p>Time Elapsed</p>
-                  <p className="text-blue-dark text-500 sm:text-700">{time}</p>
-                </div>
-                <div className="bg-blue-lighter py-4 px-4 sm:px-8 flex justify-between items-center rounded-[5px] sm:rounded-[10px]">
-                  <p>Moves Taken</p>
-                  <p className="text-blue-dark text-500 sm:text-700">
-                    {`${moves} Moves`}
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <GameButton
-                  type="button"
-                  className="flex-1 py-3.5 px-7 bg-yellow text-500 text-gray-lighter hover:bg-yellow-light focus-visible:bg-yellow-light"
-                >
-                  Restart
-                </GameButton>
-                <GameButton
-                  type="button"
-                  className="flex-1 py-3.5 px-6 bg-blue-lighter text-500 text-blue-dark hover:bg-blue-medium hover:text-gray-lighter focus-visible:bg-blue-medium focus-visible:text-gray-lighter"
-                >
-                  Setup New Game
-                </GameButton>
-              </div>
-            </div>
-          </dialog>
+            title="You did it!"
+            message="Game Over! Her's how you got on..."
+            time={time}
+            moves={moves}
+          />
         </main>
-      </>
+      </GameActionsProvider>
     );
   }
 
