@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${atkinson.className} antialiased text-300 md:text-450 text-blue-muted bg-gray-lighter`}
+        className={`${atkinson.className} antialiased text-300 sm:text-450 text-blue-muted bg-gray-lighter`}
       >
         {children}
       </body>
