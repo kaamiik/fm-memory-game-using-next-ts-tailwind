@@ -3,12 +3,14 @@ import * as React from "react";
 type CardProps = {
   isFlipped?: boolean;
   isMatched?: boolean;
+  isIcons?: boolean;
   children?: React.ReactNode;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 function CardButton({
   isFlipped = false,
   isMatched = false,
+  isIcons = false,
   children,
   className = "",
   ...delegated
@@ -22,14 +24,18 @@ function CardButton({
       {...delegated}
     >
       <div
-        className={`absolute inset-0 rounded-full flex items-center justify-center bg-blue-dark ${
+        className={`absolute ${
+          isIcons && "p-1.5"
+        } inset-0 rounded-full flex items-center justify-center bg-blue-dark ${
           !isFlipped && !isMatched
             ? "hover:bg-blue-medium focus-visible:bg-blue-medium"
             : ""
         } backface-hidden`}
       />
       <div
-        className={`absolute inset-0 text-gray-lighter rounded-full flex items-center justify-center ${
+        className={`absolute ${
+          isIcons && "p-1.5"
+        } inset-0 text-gray-lighter rounded-full flex items-center justify-center ${
           isMatched ? "bg-blue-light" : "bg-yellow"
         } backface-hidden rotate-y-180`}
       >

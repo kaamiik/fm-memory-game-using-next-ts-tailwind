@@ -1,4 +1,5 @@
 import * as React from "react";
+import Image from "next/image";
 import CardButton from "../CardButton";
 
 import type { Card } from "@/types/gameTypes";
@@ -30,6 +31,8 @@ function CardGrid({ gridSize, cards, onCardClick }: CardGridProps) {
         fontSize: "text-600 sm:text-850",
       };
 
+  const iconSize = is4x4 ? 40 : 32;
+
   return (
     <div
       className={`grid mx-auto ${gridConfig.cols} ${gridConfig.gap} ${gridConfig.maxWidth} ${gridConfig.margin}`}
@@ -40,9 +43,25 @@ function CardGrid({ gridSize, cards, onCardClick }: CardGridProps) {
           className={gridConfig.fontSize}
           isFlipped={card.isFlipped}
           isMatched={card.isMatched}
+          isIcons={typeof card.value === "string"}
           onClick={() => onCardClick(card)}
         >
-          {card.isFlipped || card.isMatched ? card.value : ""}
+          {card.isFlipped || card.isMatched ? (
+            typeof card.value === "number" ? (
+              card.value
+            ) : (
+              <span className="relative inline-block">
+                <Image
+                  src={card.value}
+                  alt=""
+                  width={iconSize}
+                  height={iconSize}
+                />
+              </span>
+            )
+          ) : (
+            ""
+          )}
         </CardButton>
       ))}
     </div>
