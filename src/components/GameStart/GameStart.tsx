@@ -17,9 +17,15 @@ function GameStart() {
   const params = useSearchParams();
   const gridSize = params.get("grid") as "4x4" | "6x6";
   const playersNum = Number(params.get("playersNum")) as 1 | 2 | 3 | 4;
+  const theme = params.get("theme") as "numbers" | "icons";
 
   const [cards, setCards] = React.useState<Card[]>([]);
+  const [activePlayerId, setActivePlayerId] = React.useState<1 | 2 | 3 | 4>(1);
+  const [playerScores, setPlayerScores] = React.useState<number[]>([
+    0, 0, 0, 0,
+  ]);
   const [moves, setMoves] = React.useState(0);
+  const [isProcessing, setIsProcessing] = React.useState(false);
 
   const dialogRef = React.useRef<HTMLDialogElement>(null);
 
@@ -43,23 +49,43 @@ function GameStart() {
 
   React.useEffect(() => {
     if (isGameStarted) {
-      setCards(generateCards(gridSize));
+      const newCards = generateCards(gridSize, theme).map((card) => ({
+        ...card,
+        isFlipped: false,
+        isMatched: false,
+      }));
+      setCards(newCards);
+      setActivePlayerId(1);
+      setPlayerScores([0, 0, 0, 0]);
       setMoves(0);
+      setIsProcessing(false);
       reset();
       if (playersNum === 1) start();
     }
-  }, [isGameStarted, playersNum, gridSize, reset, start]);
+  }, [isGameStarted, playersNum, gridSize, theme, reset, start]);
 
   function handleRestart() {
     dialogRef.current?.close();
-    setCards(generateCards(gridSize));
+    const newCards = generateCards(gridSize, theme).map((card) => ({
+      ...card,
+      isFlipped: false,
+      isMatched: false,
+    }));
+    setCards(newCards);
+    setActivePlayerId(1);
+    setPlayerScores([0, 0, 0, 0]);
     setMoves(0);
+    setIsProcessing(false);
     reset();
     if (playersNum === 1) start();
   }
 
+  function getNextPlayer(currentPlayerId: number): 1 | 2 | 3 | 4 {
+    return ((currentPlayerId % playersNum) + 1) as 1 | 2 | 3 | 4;
+  }
+
   function handleCardClick(clickedCard: Card) {
-    if (clickedCard.isFlipped || clickedCard.isMatched) return;
+    if (isProcessing || clickedCard.isFlipped || clickedCard.isMatched) return;
 
     const updatedCards = cards.map((card) =>
       card.id === clickedCard.id ? { ...card, isFlipped: true } : card
@@ -72,7 +98,7 @@ function GameStart() {
 
     if (newFlipped.length === 2) {
       setMoves((prev) => prev + 1);
-
+      setIsProcessing(true);
       if (newFlipped[0].value === newFlipped[1].value) {
         // Match case
         setCards((prevCards) =>
@@ -82,6 +108,17 @@ function GameStart() {
               : card
           )
         );
+
+        // Multiplayer: current player gets a point and keeps turn
+        if (playersNum > 1) {
+          setPlayerScores((prev) => {
+            const newScores = [...prev];
+            newScores[activePlayerId - 1]++;
+            return newScores;
+          });
+        }
+
+        setIsProcessing(false);
       } else {
         // No match case
         setTimeout(() => {
@@ -92,7 +129,12 @@ function GameStart() {
                 : card
             )
           );
-        }, 1000);
+          // Multiplayer: switch to next player
+          if (playersNum > 1) {
+            setActivePlayerId(getNextPlayer(activePlayerId));
+          }
+          setIsProcessing(false);
+        }, 800);
       }
     }
   }
@@ -114,7 +156,8 @@ function GameStart() {
             <ScoreBoard
               mode="multi"
               playersNum={playersNum}
-              activePlayerId={1}
+              activePlayerId={activePlayerId}
+              playerScores={playerScores}
             />
           )}
 

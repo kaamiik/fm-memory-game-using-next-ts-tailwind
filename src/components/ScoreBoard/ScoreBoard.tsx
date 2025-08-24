@@ -12,6 +12,7 @@ type ScoreBoardProps =
       mode: "multi";
       playersNum: 1 | 2 | 3 | 4;
       activePlayerId?: 1 | 2 | 3 | 4;
+      playerScores: number[];
       className?: string;
     };
 
@@ -22,7 +23,7 @@ function ScoreBoard(props: ScoreBoardProps) {
 
   if (props.mode === "solo") {
     return (
-      <div className="mt-auto pt-24 flex justify-center">
+      <div className="mt-auto pt-24 pb-16 flex justify-center">
         <div className={cls}>
           <GameStat label="Time" value={props.time} />
           <GameStat label="Moves" value={props.moves} />
@@ -31,22 +32,23 @@ function ScoreBoard(props: ScoreBoardProps) {
     );
   }
 
-  const players = Array.from({ length: props.playersNum }, (_, i) => ({
-    id: (i + 1) as 1 | 2 | 3 | 4,
-    score: 0,
-  }));
-
   return (
-    <div className="mt-auto pt-24 flex justify-center">
+    <div className="mt-auto pt-24 pb-16 flex justify-center">
       <div className={cls}>
-        {players.map((p) => (
-          <GameStat
-            key={p.id}
-            player={p.id}
-            value={p.score}
-            aria-current={props.activePlayerId === p.id ? "true" : undefined}
-          />
-        ))}
+        {Array.from({ length: props.playersNum }, (_, i) => {
+          const playerId = (i + 1) as 1 | 2 | 3 | 4;
+          return (
+            <GameStat
+              key={playerId}
+              player={playerId}
+              value={props.playerScores[i]}
+              activePlayer={props.activePlayerId}
+              aria-current={
+                props.activePlayerId === playerId ? "true" : undefined
+              }
+            />
+          );
+        })}
       </div>
     </div>
   );
