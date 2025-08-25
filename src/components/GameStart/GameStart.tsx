@@ -161,13 +161,23 @@ function GameStart() {
             />
           )}
 
-          <GameOverDialog
-            ref={dialogRef}
-            title="You did it!"
-            message="Game Over! Her's how you got on..."
-            time={time}
-            moves={moves}
-          />
+          {playersNum === 1 ? (
+            <GameOverDialog
+              ref={dialogRef}
+              mode="solo"
+              title="You did it!"
+              message="Game Over! Here's how you got on..."
+              time={time}
+              moves={moves}
+            />
+          ) : (
+            <GameOverDialog
+              ref={dialogRef}
+              mode="multi"
+              playerScores={playerScores}
+              playersNum={playersNum}
+            />
+          )}
         </main>
       </GameActionsProvider>
     );

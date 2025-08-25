@@ -31,7 +31,7 @@ export function generateCards(
   }
   const pairedNumbers = [...numbers, ...numbers];
   const shuffled = shuffle(pairedNumbers);
-
+  console.log(shuffled);
   return shuffled.map((value, index) => ({
     id: `card-${index + 1}`,
     value,
