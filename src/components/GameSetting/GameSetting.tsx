@@ -16,23 +16,35 @@ function GameSetting({ className = "" }: { className?: string }) {
       >
         <div className="flex flex-col gap-6 sm:gap-8">
           <Fieldset legend="Select Theme">
-            <Option name="theme" id="numbers" label="Numbers" defaultChecked />
-            <Option name="theme" id="icons" label="Icons" />
+            <Option
+              name="theme"
+              id="theme-numbers"
+              value="numbers"
+              label="Numbers"
+              defaultChecked
+            />
+            <Option name="theme" id="theme-icons" value="icons" label="Icons" />
           </Fieldset>
 
           <Fieldset legend="Numbers of Players">
-            <Option name="playersNum" id="1" label="1" defaultChecked />
-            <Option name="playersNum" id="2" label="2" />
-            <Option name="playersNum" id="3" label="3" />
-            <Option name="playersNum" id="4" label="4" />
+            <Option
+              name="playersNum"
+              id="playersNum-1"
+              value="1"
+              label="1"
+              defaultChecked
+            />
+            <Option name="playersNum" id="playersNum-2" value="2" label="2" />
+            <Option name="playersNum" id="playersNum-3" value="3" label="3" />
+            <Option name="playersNum" id="playersNum-4" value="4" label="4" />
           </Fieldset>
 
           <Fieldset legend="Grid Size">
-            <Option name="grid" id="4x4" defaultChecked>
+            <Option name="grid" id="grid-4x4" value="4x4" defaultChecked>
               <span className="sr-only">4 by 4</span>
               <span aria-hidden="true">4x4</span>
             </Option>
-            <Option name="grid" id="6x6">
+            <Option name="grid" id="grid-6x6" value="6x6">
               <span className="sr-only">6 by 6</span>
               <span aria-hidden="true">6x6</span>
             </Option>

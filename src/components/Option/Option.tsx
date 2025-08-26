@@ -5,7 +5,7 @@ type OptionProps = React.InputHTMLAttributes<HTMLInputElement> & {
   children?: React.ReactNode;
 };
 
-function Option({ label, children, id, ...delegated }: OptionProps) {
+function Option({ label, children, id, value, ...delegated }: OptionProps) {
   return (
     <label
       htmlFor={id}
@@ -14,7 +14,7 @@ function Option({ label, children, id, ...delegated }: OptionProps) {
       <input
         type="radio"
         id={id}
-        value={id}
+        value={value || id}
         {...delegated}
         className="sr-only"
       />
