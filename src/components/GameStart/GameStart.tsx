@@ -73,15 +73,23 @@ function GameStart({ gridSize, playersNum, theme }: GameStartProps) {
     };
   }, [isGameOver, stop]);
 
-  const initializeGame = React.useCallback(() => {
+  React.useEffect(() => {
     reset();
     if (playersNum === 1) start();
   }, [playersNum, reset, start]);
 
   const handleRestart = React.useCallback(() => {
     dialogRef.current?.close();
-    initializeGame();
-  }, [initializeGame]);
+    setGameState({
+      cards: initialCards,
+      activePlayerId: 1,
+      playerScores: Array(playersNum).fill(0),
+      moves: 0,
+      isProcessing: false,
+    });
+    reset();
+    if (playersNum === 1) start();
+  }, [initialCards, playersNum, reset, start]);
 
   const getNextPlayer = React.useCallback(
     (currentPlayerId: number): 1 | 2 | 3 | 4 => {
