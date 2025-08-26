@@ -36,6 +36,18 @@
   --my-tracking: 5px;
 }
 
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 [data-player="1"]::before {
   content: "P1";
 }
@@ -107,4 +119,54 @@
 
 .animate-fade-in {
   animation: fade-in 0.3s ease-out;
+}
+
+/* Reduced motion alternative for fade-in */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Card flip animations with reduced motion support */
+.card-flip {
+  transition: transform 0.5s ease-in-out;
+}
+
+.card-flip.flipped {
+  transform: rotateY(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-flip {
+    transition: none;
+  }
+
+  .card-flip.flipped {
+    transform: rotateY(180deg);
+  }
+}
+
+/* Hover transitions with reduced motion support */
+.hover-transition {
+  transition: background-color 0.2s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-transition {
+    transition: none;
+  }
+}
+
+/* Loading spinner with reduced motion support */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-spinner {
+    animation: none;
+  }
 }

@@ -50,7 +50,7 @@ function PageHeader() {
         {/* Tablet & Desktop buttons */}
         <div className="hidden sm:flex gap-4 items-center">
           <GameButton
-            type="button"
+            type="reset"
             className="py-3.5 px-7 bg-yellow text-500 text-gray-lighter hover:bg-yellow-light focus-visible:bg-yellow-light"
             onClick={handleRestart}
           >

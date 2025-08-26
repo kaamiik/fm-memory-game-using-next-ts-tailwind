@@ -37,6 +37,7 @@ function GameDialog(
       ref={ref}
     >
       <GameButton
+        type="reset"
         autoFocus
         className="w-full p-3 rounded-full bg-blue-lighter hover:bg-yellow focus:bg-yellow focus:text-gray-lighter hover:text-gray-lighter"
         onClick={onRestart}
@@ -51,6 +52,7 @@ function GameDialog(
         New Game
       </GameButton>
       <GameButton
+        type="button"
         className="w-full p-3 rounded-full bg-blue-lighter hover:bg-yellow focus:bg-yellow focus:text-gray-lighter hover:text-gray-lighter"
         onClick={closeDialog}
       >

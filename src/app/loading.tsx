@@ -6,7 +6,7 @@ export default function Loading() {
     <div className="min-h-dvh grid place-items-center bg-gray-lighter">
       <Loader
         aria-label="Loading"
-        className="animate-spin"
+        className="loading-spinner"
         size={52}
         color="hsl(37, 98%, 54%)"
         strokeWidth={2.5}

@@ -85,7 +85,7 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
 
             <div className="flex flex-col sm:flex-row gap-4">
               <GameButton
-                type="button"
+                type="reset"
                 className="flex-1 py-3.5 px-7 bg-yellow text-500 text-gray-lighter hover:bg-yellow-light focus-visible:bg-yellow-light"
                 onClick={handleRestart}
               >
@@ -128,7 +128,7 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
 
           <div className="flex flex-col sm:flex-row gap-4">
             <GameButton
-              type="button"
+              type="reset"
               className="flex-1 py-3.5 px-7 bg-yellow text-500 text-gray-lighter hover:bg-yellow-light focus-visible:bg-yellow-light"
               onClick={handleRestart}
             >

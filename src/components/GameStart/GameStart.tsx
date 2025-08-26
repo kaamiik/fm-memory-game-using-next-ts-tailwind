@@ -93,7 +93,10 @@ function GameStart({ gridSize, playersNum, theme }: GameStartProps) {
 
   const getNextPlayer = React.useCallback(
     (currentPlayerId: number): 1 | 2 | 3 | 4 => {
-      return ((currentPlayerId % playersNum) + 1) as 1 | 2 | 3 | 4;
+      if (currentPlayerId >= playersNum) {
+        return 1;
+      }
+      return (currentPlayerId + 1) as 1 | 2 | 3 | 4;
     },
     [playersNum]
   );
@@ -151,6 +154,11 @@ function GameStart({ gridSize, playersNum, theme }: GameStartProps) {
           };
         } else {
           // No match - set processing state, will flip back after timeout
+          const nextPlayer =
+            playersNum > 1
+              ? getNextPlayer(prevState.activePlayerId)
+              : prevState.activePlayerId;
+
           setTimeout(() => {
             setGameState((currentState) => ({
               ...currentState,
@@ -159,10 +167,7 @@ function GameStart({ gridSize, playersNum, theme }: GameStartProps) {
                   ? { ...card, isFlipped: false }
                   : card
               ),
-              activePlayerId:
-                playersNum > 1
-                  ? getNextPlayer(currentState.activePlayerId)
-                  : currentState.activePlayerId,
+              activePlayerId: nextPlayer,
               isProcessing: false,
             }));
           }, 800);

@@ -11,7 +11,7 @@ function GameSetting({ className = "" }: { className?: string }) {
         memory<span className="sr-only"> game</span>
       </h1>
       <form
-        method="GET"
+        method="get"
         className={`max-w-[40.875rem] w-full mx-auto p-6 sm:p-14 bg-gray-lighter rounded-[10px] sm:rounded-[20px] ${className}`}
       >
         <div className="flex flex-col gap-6 sm:gap-8">
@@ -50,7 +50,10 @@ function GameSetting({ className = "" }: { className?: string }) {
             </Option>
           </Fieldset>
         </div>
-        <GameButton className="w-full bg-yellow p-2 mt-8 text-450 sm:text-700 text-gray-lighter  hover:bg-yellow-light focus-visible:bg-yellow-light">
+        <GameButton
+          type="submit"
+          className="w-full bg-yellow p-2 mt-8 text-450 sm:text-700 text-gray-lighter  hover:bg-yellow-light focus-visible:bg-yellow-light"
+        >
           Start Game
         </GameButton>
       </form>
