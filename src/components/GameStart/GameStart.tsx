@@ -16,20 +16,46 @@ type GameStartProps = {
   theme: "numbers" | "icons";
 };
 
+type GameState = {
+  cards: Card[];
+  activePlayerId: 1 | 2 | 3 | 4;
+  playerScores: number[];
+  moves: number;
+  isProcessing: boolean;
+};
+
 function GameStart({ gridSize, playersNum, theme }: GameStartProps) {
   const { time, start, stop, reset } = useTimer();
 
-  const [cards, setCards] = React.useState<Card[]>([]);
-  const [activePlayerId, setActivePlayerId] = React.useState<1 | 2 | 3 | 4>(1);
-  const [playerScores, setPlayerScores] = React.useState<number[]>([
-    0, 0, 0, 0,
-  ]);
-  const [moves, setMoves] = React.useState(0);
-  const [isProcessing, setIsProcessing] = React.useState(false);
+  const initialCards = React.useMemo(() => {
+    return generateCards(gridSize, theme).map((card) => ({
+      ...card,
+      isFlipped: false,
+      isMatched: false,
+    }));
+  }, [gridSize, theme]);
+
+  const [gameState, setGameState] = React.useState<GameState>(() => ({
+    cards: initialCards,
+    activePlayerId: 1,
+    playerScores: Array(playersNum).fill(0),
+    moves: 0,
+    isProcessing: false,
+  }));
 
   const dialogRef = React.useRef<HTMLDialogElement>(null);
 
-  const isGameOver = cards.length > 0 && cards.every((card) => card.isMatched);
+  const isGameOver = React.useMemo(() => {
+    return (
+      gameState.cards.length > 0 &&
+      gameState.cards.every((card) => card.isMatched)
+    );
+  }, [gameState.cards]);
+
+  // For showing game progress
+  const matchedPairs = React.useMemo(() => {
+    return gameState.cards.filter((card) => card.isMatched).length / 2;
+  }, [gameState.cards]);
 
   React.useEffect(() => {
     let interval: NodeJS.Timeout | undefined;
@@ -47,91 +73,103 @@ function GameStart({ gridSize, playersNum, theme }: GameStartProps) {
     };
   }, [isGameOver, stop]);
 
-  React.useEffect(() => {
-    const newCards = generateCards(gridSize, theme).map((card) => ({
-      ...card,
-      isFlipped: false,
-      isMatched: false,
-    }));
-    setCards(newCards);
-    setActivePlayerId(1);
-    setPlayerScores([0, 0, 0, 0]);
-    setMoves(0);
-    setIsProcessing(false);
+  const initializeGame = React.useCallback(() => {
     reset();
     if (playersNum === 1) start();
-  }, [playersNum, gridSize, theme, reset, start]);
+  }, [playersNum, reset, start]);
 
-  function handleRestart() {
+  const handleRestart = React.useCallback(() => {
     dialogRef.current?.close();
-    const newCards = generateCards(gridSize, theme).map((card) => ({
-      ...card,
-      isFlipped: false,
-      isMatched: false,
-    }));
-    setCards(newCards);
-    setActivePlayerId(1);
-    setPlayerScores([0, 0, 0, 0]);
-    setMoves(0);
-    setIsProcessing(false);
-    reset();
-    if (playersNum === 1) start();
-  }
+    initializeGame();
+  }, [initializeGame]);
 
-  function getNextPlayer(currentPlayerId: number): 1 | 2 | 3 | 4 {
-    return ((currentPlayerId % playersNum) + 1) as 1 | 2 | 3 | 4;
-  }
+  const getNextPlayer = React.useCallback(
+    (currentPlayerId: number): 1 | 2 | 3 | 4 => {
+      return ((currentPlayerId % playersNum) + 1) as 1 | 2 | 3 | 4;
+    },
+    [playersNum]
+  );
 
-  function handleCardClick(clickedCard: Card) {
-    if (isProcessing || clickedCard.isFlipped || clickedCard.isMatched) return;
+  const handleCardClick = React.useCallback(
+    (clickedCard: Card) => {
+      if (
+        gameState.isProcessing ||
+        clickedCard.isFlipped ||
+        clickedCard.isMatched
+      )
+        return;
 
-    const updatedCards = cards.map((card) =>
-      card.id === clickedCard.id ? { ...card, isFlipped: true } : card
-    );
-    setCards(updatedCards);
+      setGameState((prevState) => {
+        const updatedCards = prevState.cards.map((card) =>
+          card.id === clickedCard.id ? { ...card, isFlipped: true } : card
+        );
 
-    const newFlipped = updatedCards.filter(
-      (card) => card.isFlipped && !card.isMatched
-    );
+        const newFlipped = updatedCards.filter(
+          (card) => card.isFlipped && !card.isMatched
+        );
 
-    if (newFlipped.length === 2) {
-      setMoves((prev) => prev + 1);
-      setIsProcessing(true);
-      if (newFlipped[0].value === newFlipped[1].value) {
-        setCards((prevCards) =>
-          prevCards.map((card) =>
+        // If less than 2 cards flipped, just update cards
+        if (newFlipped.length < 2) {
+          return {
+            ...prevState,
+            cards: updatedCards,
+          };
+        }
+
+        // Two cards flipped - check for match
+        const isMatch = newFlipped[0].value === newFlipped[1].value;
+
+        if (isMatch) {
+          // Immediate match - update matched status and scores
+          const matchedCards = updatedCards.map((card) =>
             card.id === newFlipped[0].id || card.id === newFlipped[1].id
               ? { ...card, isMatched: true }
               : card
-          )
-        );
-
-        if (playersNum > 1) {
-          setPlayerScores((prev) => {
-            const newScores = [...prev];
-            newScores[activePlayerId - 1]++;
-            return newScores;
-          });
-        }
-
-        setIsProcessing(false);
-      } else {
-        setTimeout(() => {
-          setCards((prevCards) =>
-            prevCards.map((card) =>
-              card.id === newFlipped[0].id || card.id === newFlipped[1].id
-                ? { ...card, isFlipped: false }
-                : card
-            )
           );
-          if (playersNum > 1) {
-            setActivePlayerId(getNextPlayer(activePlayerId));
-          }
-          setIsProcessing(false);
-        }, 800);
-      }
-    }
-  }
+
+          const newScores =
+            playersNum > 1
+              ? prevState.playerScores.map((score, index) =>
+                  index === prevState.activePlayerId - 1 ? score + 1 : score
+                )
+              : prevState.playerScores;
+
+          return {
+            ...prevState,
+            cards: matchedCards,
+            moves: prevState.moves + 1,
+            playerScores: newScores,
+            // Don't change active player on match
+          };
+        } else {
+          // No match - set processing state, will flip back after timeout
+          setTimeout(() => {
+            setGameState((currentState) => ({
+              ...currentState,
+              cards: currentState.cards.map((card) =>
+                card.id === newFlipped[0].id || card.id === newFlipped[1].id
+                  ? { ...card, isFlipped: false }
+                  : card
+              ),
+              activePlayerId:
+                playersNum > 1
+                  ? getNextPlayer(currentState.activePlayerId)
+                  : currentState.activePlayerId,
+              isProcessing: false,
+            }));
+          }, 800);
+
+          return {
+            ...prevState,
+            cards: updatedCards,
+            moves: prevState.moves + 1,
+            isProcessing: true,
+          };
+        }
+      });
+    },
+    [gameState.isProcessing, playersNum, getNextPlayer]
+  );
 
   return (
     <GameActionsProvider value={{ restart: handleRestart }}>
@@ -139,18 +177,18 @@ function GameStart({ gridSize, playersNum, theme }: GameStartProps) {
       <main className="p-6 sm:p-10 lg:p-9 xl:px-0 grid">
         <CardGrid
           gridSize={gridSize}
-          cards={cards}
+          cards={gameState.cards}
           onCardClick={handleCardClick}
         />
 
         {playersNum === 1 ? (
-          <ScoreBoard mode="solo" time={time} moves={moves} />
+          <ScoreBoard mode="solo" time={time} moves={gameState.moves} />
         ) : (
           <ScoreBoard
             mode="multi"
             playersNum={playersNum}
-            activePlayerId={activePlayerId}
-            playerScores={playerScores}
+            activePlayerId={gameState.activePlayerId}
+            playerScores={gameState.playerScores}
           />
         )}
 
@@ -161,13 +199,13 @@ function GameStart({ gridSize, playersNum, theme }: GameStartProps) {
             title="You did it!"
             message="Game Over! Here's how you got on..."
             time={time}
-            moves={moves}
+            moves={gameState.moves}
           />
         ) : (
           <GameOverDialog
             ref={dialogRef}
             mode="multi"
-            playerScores={playerScores}
+            playerScores={gameState.playerScores}
             playersNum={playersNum}
           />
         )}
