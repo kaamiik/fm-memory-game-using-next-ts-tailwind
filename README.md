@@ -1,22 +1,23 @@
-# Frontend Mentor - Memory game
+# Frontend Mentor - Memory game solution
 
-![Design preview for the Memory game coding challenge](./preview.jpg)
+This is a solution to the [Memory game challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/memory-game-vse4WFPvM).
 
-## Welcome! 👋
+## Table of contents
 
-Thanks for purchasing this premium Frontend Mentor coding challenge.
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+- [My process](#my-process)
+  - [Built with](#built-with)
+  - [What I learned](#what-i-learned)
+- [Author](#author)
 
-[Frontend Mentor](https://www.frontendmentor.io) challenges help you improve your coding skills by building realistic projects. These premium challenges are perfect portfolio pieces, so please feel free to use what you create in your portfolio to show others.
+## Overview
 
-**To do this challenge, you need a strong understanding of HTML, CSS, and JavaScript.**
+### The challenge
 
-## The challenge
-
-Your challenge is to build out this Memory game and get it looking as close to the design as possible.
-
-You can use any tools you like to help you complete the challenge. So if you've got something you'd like to practice, feel free to give it a go.
-
-Your users should be able to:
+Users should be able to:
 
 - View the optimal layout for the game depending on their device's screen size
 - See hover states for all interactive elements on the page
@@ -24,77 +25,48 @@ Your users should be able to:
 - Set the theme to use numbers or icons within the tiles
 - Choose to play on either a 6x6 or 4x4 grid
 
-Want some support on the challenge? [Join our community](https://www.frontendmentor.io/community) and ask questions in the **#help** channel.
+### Screenshot
 
-### Expected behaviour
+![](./screenshot.png)
 
-- You can choose to make the default screen either the Start Game screen or the solo player 4x4 grid. Note that we're using the solo player 4x4 grid for the design screenshot, so if you choose the Start Game screen, it won't match up in the design comparison slider. This isn't a big deal, but is something worth considering.
-- In a solo game, track the time elapsed since first clicking on a tile and the total number of moves made. A move counts as two tiles being selected as a potential match. Once all pairs have been found, stop the timer and show the end of game modal with the stats.
-- In a multiplayer game, track the total number of pairs each player has found. If a player finds a pair, increment their score by one. The current turn switches to the next player after the current player has made a move to find a potential match.
-- Clicking "Restart" will restart the game with the current settings
-- Clicking "New Game" will go to the Start Game screen where the player can choose their settings
-- The icons in the design are from [Font Awesome](https://fontawesome.com/). Please choose whatever icons you prefer. You could even use a different icon library, if you like.
+### Links
 
-## Where to find everything
+- Solution URL: [Add solution URL here](https://github.com/kaamiik/fm-memory-game-using-next-ts-tailwind)
+- Live Site URL: [Vercel](https://memory-game-kiaaka.vercel.app/)
 
-Your task is to build out the project to the design file provided. We provide both Sketch and Figma versions of the design, so you can choose which tool you prefer to use. You can download the design file on the platform. **Please be sure not to share them with anyone else.** The design download comes with a `README.md` file as well to help you get set up.
+## My process
 
-All the required assets for this project are in the `/assets` folder. The assets are already exported for the correct screen size and optimized. Some images are reusable at multiple screen sizes. So if you don't see an image in a specific folder, it will typically be in another folder for that page.
+### Built with
 
-The design system in the design file will give you more information about the various colors, fonts, and styles used in this project.
+- Semantic HTML5 markup
+- CSS
+- Mobile-first workflow
+- [React](https://reactjs.org/) - JS library
+- [Next.js](https://nextjs.org/) - React framework
+- [TailwindCSS](https://tailwindcss.com/) - For styles
+- [TypeScript](https://www.typescriptlang.org/docs/)
 
-## Building your project
+### What I learned
 
-Feel free to use any workflow that you feel comfortable with. Below is a suggested process, but do not feel like you need to follow these steps:
+This project was an excellent opportunity to practice complex state management and game logic implementation. Here are the key learnings:
 
-1. Separate the `starter-code` from the rest of this project and rename it to something meaningful for you. Initialize the codebase as a public repository on [GitHub](https://github.com/). Creating a repo will make it easier to share your code with the community if you need help. If you're not sure how to do this, [have a read-through of this Try Git resource](https://try.github.io/). **⚠️ IMPORTANT ⚠️: There are already a couple of `.gitignore` files in this project. Please do not remove them or change the content of the files. If you create a brand new project, please use the `.gitignore` files provided in your new codebase. This is to avoid the accidental upload of the design files to GitHub. With these premium challenges, please be sure not to share the design files in your GitHub repo. Thanks!**
-2. Configure your repository to publish your code to a web address. This will also be useful if you need some help during a challenge as you can share the URL for your project with your repo URL. There are a number of ways to do this, and we provide some recommendations below.
-3. Look through the designs to start planning out how you'll tackle the project. This step is crucial to help you think ahead for CSS classes to create reusable styles.
-4. Before adding any styles, structure your content with HTML. Writing your HTML first can help focus your attention on creating well-structured content.
-5. Write out the base styles for your project, including general content styles, such as `font-family` and `font-size`.
-6. Start adding styles to the top of the page and work down. Only move on to the next section once you're happy you've completed the area you're working on.
+**Next.js App Router & Search Params**: I learned to effectively use Next.js 14's App Router with async server components and search parameters for game configuration. The `searchParams` prop allowed me to create a clean URL-based state management system where game settings (theme, players, grid size) are reflected in the URL, making the game shareable and bookmarkable.
 
-## Deploying your project
+**Complex State Management**: Managing the game state was challenging but rewarding. I implemented a comprehensive state system handling cards, player turns, scores, moves, and game processing states. The `useCallback` hooks were crucial for preventing unnecessary re-renders and maintaining performance during rapid card interactions.
 
-As mentioned above, there are many ways to host your project for free. Our recommended hosts are:
+**Custom Hooks & Reusable Components**: Created a custom `useTimer` hook for tracking game time and built modular components like `CardButton`, `CardGrid`, and `GameDialog` that can be easily reused and tested. The component architecture follows the single responsibility principle, making the codebase maintainable.
 
-- [GitHub Pages](https://pages.github.com/)
-- [Vercel](https://vercel.com/)
-- [Netlify](https://www.netlify.com/)
+**CSS Animations & 3D Transforms**: Implemented smooth card flip animations using CSS 3D transforms (`rotate-y-180`) and transitions. The cards have a realistic flip effect with proper backface visibility handling, creating an engaging user experience.
 
-You can host your site using one of these solutions or any of our other trusted providers. [Read more about our recommended and trusted hosts](https://medium.com/frontend-mentor/frontend-mentor-trusted-hosting-providers-bf000dfebe).
+**Game Logic Implementation**: Built robust game logic including card matching, turn management for multiplayer (up to 4 players), score tracking, and win condition detection. The logic handles edge cases like preventing clicks during processing states and managing player transitions.
 
-## Create a custom `README.md`
+**TypeScript & Type Safety**: Leveraged TypeScript throughout the project for better development experience and runtime safety. Created proper type definitions for game state, card objects, and component props, which helped catch errors early and improved code documentation.
 
-We strongly recommend overwriting this `README.md` with a custom one. We've provided a template inside the [`README-template.md`](./README-template.md) file in this starter code.
+**Responsive Design with Tailwind**: Used Tailwind CSS with custom CSS variables for consistent theming and responsive design. The game adapts seamlessly from mobile to desktop with appropriate grid layouts and spacing.
 
-The template provides a guide for what to add. A custom `README` will help you explain your project and reflect on your learnings. Please feel free to edit our template as much as you like.
+**Context API for Global State**: Implemented React Context for sharing game actions (like restart functionality) across components without prop drilling, demonstrating clean state management patterns.
 
-Once you've added your information to the template, delete this file and rename the `README-template.md` file to `README.md`. That will make it show up as your repository's README file.
+## Author
 
-## Submitting your solution
-
-Submit your solution on the platform for the rest of the community to see. Follow our ["Complete guide to submitting solutions"](https://medium.com/frontend-mentor/a-complete-guide-to-submitting-solutions-on-frontend-mentor-ac6384162248) for tips on how to do this.
-
-Remember, if you're looking for feedback on your solution, be sure to ask questions when submitting it. The more specific and detailed you are with your questions, the higher the chance you'll get valuable feedback from the community.
-
-**⚠️ IMPORTANT ⚠️: With these premium challenges, please be sure not to upload the design files to GitHub when you're submitting to the platform and sharing it around. If you've created a brand new project, the easiest way to do that is to copy across the `.gitignore` provided in this starter project.**
-
-## Sharing your solution
-
-There are multiple places you can share your solution:
-
-1. Share your solution page in the **#finished-projects** channel of the [community](https://www.frontendmentor.io/community). 
-2. Tweet [@frontendmentor](https://twitter.com/frontendmentor) and mention **@frontendmentor**, including the repo and live URLs in the tweet. We'd love to take a look at what you've built and help share it around.
-3. Share your solution on other social channels like LinkedIn.
-4. Blog about your experience building your project. Writing about your workflow, technical choices, and talking through your code is a brilliant way to reinforce what you've learned. Great platforms to write on are [dev.to](https://dev.to/), [Hashnode](https://hashnode.com/), and [CodeNewbie](https://community.codenewbie.org/).
-
-We provide templates to help you share your solution once you've submitted it on the platform. Please do edit them and include specific questions when you're looking for feedback. 
-
-The more specific you are with your questions the more likely it is that another member of the community will give you feedback.
-
-## Got feedback for us?
-
-We love receiving feedback! We're always looking to improve our challenges and our platform. So if you have anything you'd like to mention, please email hi[at]frontendmentor[dot]io.
-
-**Have fun building!** 🚀
+- Frontend Mentor - [@kaamiik](https://www.frontendmentor.io/profile/kaamiik)
+- Twitter - [@kiaakamran](https://www.twitter.com/kiaakamran)
