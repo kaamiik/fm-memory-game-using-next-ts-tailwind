@@ -29,6 +29,10 @@ export default async function Home({
 
   const isGameStarted = !!theme && !!playersNum && !!gridSize;
 
+  if (isGameStarted) {
+    await new Promise((r) => setTimeout(r, 2000));
+  }
+
   return (
     <>
       {isGameStarted ? (
