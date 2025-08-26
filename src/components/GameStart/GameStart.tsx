@@ -1,7 +1,6 @@
+"use client";
 import * as React from "react";
-import { useSearchParams } from "next/navigation";
 
-import useIsGameStarted from "@/hooks/useIsGameStarted";
 import PageHeader from "../PageHeader";
 import CardGrid from "../CardGrid";
 import ScoreBoard from "../ScoreBoard";
@@ -11,13 +10,14 @@ import { generateCards } from "@/utils";
 import GameOverDialog from "../GameOverDialog";
 import { GameActionsProvider } from "@/context/GameActionsContext";
 
-function GameStart() {
-  const isGameStarted = useIsGameStarted();
+type GameStartProps = {
+  gridSize: "4x4" | "6x6";
+  playersNum: 1 | 2 | 3 | 4;
+  theme: "numbers" | "icons";
+};
+
+function GameStart({ gridSize, playersNum, theme }: GameStartProps) {
   const { time, start, stop, reset } = useTimer();
-  const params = useSearchParams();
-  const gridSize = params.get("grid") as "4x4" | "6x6";
-  const playersNum = Number(params.get("playersNum")) as 1 | 2 | 3 | 4;
-  const theme = params.get("theme") as "numbers" | "icons";
 
   const [cards, setCards] = React.useState<Card[]>([]);
   const [activePlayerId, setActivePlayerId] = React.useState<1 | 2 | 3 | 4>(1);
@@ -48,21 +48,19 @@ function GameStart() {
   }, [isGameOver, stop]);
 
   React.useEffect(() => {
-    if (isGameStarted) {
-      const newCards = generateCards(gridSize, theme).map((card) => ({
-        ...card,
-        isFlipped: false,
-        isMatched: false,
-      }));
-      setCards(newCards);
-      setActivePlayerId(1);
-      setPlayerScores([0, 0, 0, 0]);
-      setMoves(0);
-      setIsProcessing(false);
-      reset();
-      if (playersNum === 1) start();
-    }
-  }, [isGameStarted, playersNum, gridSize, theme, reset, start]);
+    const newCards = generateCards(gridSize, theme).map((card) => ({
+      ...card,
+      isFlipped: false,
+      isMatched: false,
+    }));
+    setCards(newCards);
+    setActivePlayerId(1);
+    setPlayerScores([0, 0, 0, 0]);
+    setMoves(0);
+    setIsProcessing(false);
+    reset();
+    if (playersNum === 1) start();
+  }, [playersNum, gridSize, theme, reset, start]);
 
   function handleRestart() {
     dialogRef.current?.close();
@@ -100,7 +98,6 @@ function GameStart() {
       setMoves((prev) => prev + 1);
       setIsProcessing(true);
       if (newFlipped[0].value === newFlipped[1].value) {
-        // Match case
         setCards((prevCards) =>
           prevCards.map((card) =>
             card.id === newFlipped[0].id || card.id === newFlipped[1].id
@@ -109,7 +106,6 @@ function GameStart() {
           )
         );
 
-        // Multiplayer: current player gets a point and keeps turn
         if (playersNum > 1) {
           setPlayerScores((prev) => {
             const newScores = [...prev];
@@ -120,7 +116,6 @@ function GameStart() {
 
         setIsProcessing(false);
       } else {
-        // No match case
         setTimeout(() => {
           setCards((prevCards) =>
             prevCards.map((card) =>
@@ -129,7 +124,6 @@ function GameStart() {
                 : card
             )
           );
-          // Multiplayer: switch to next player
           if (playersNum > 1) {
             setActivePlayerId(getNextPlayer(activePlayerId));
           }
@@ -139,51 +133,47 @@ function GameStart() {
     }
   }
 
-  if (isGameStarted) {
-    return (
-      <GameActionsProvider value={{ restart: handleRestart }}>
-        <PageHeader />
-        <main className="p-6 sm:p-10 lg:p-9 xl:px-0 grid">
-          <CardGrid
-            gridSize={gridSize}
-            cards={cards}
-            onCardClick={handleCardClick}
+  return (
+    <GameActionsProvider value={{ restart: handleRestart }}>
+      <PageHeader />
+      <main className="p-6 sm:p-10 lg:p-9 xl:px-0 grid">
+        <CardGrid
+          gridSize={gridSize}
+          cards={cards}
+          onCardClick={handleCardClick}
+        />
+
+        {playersNum === 1 ? (
+          <ScoreBoard mode="solo" time={time} moves={moves} />
+        ) : (
+          <ScoreBoard
+            mode="multi"
+            playersNum={playersNum}
+            activePlayerId={activePlayerId}
+            playerScores={playerScores}
           />
+        )}
 
-          {playersNum === 1 ? (
-            <ScoreBoard mode="solo" time={time} moves={moves} />
-          ) : (
-            <ScoreBoard
-              mode="multi"
-              playersNum={playersNum}
-              activePlayerId={activePlayerId}
-              playerScores={playerScores}
-            />
-          )}
-
-          {playersNum === 1 ? (
-            <GameOverDialog
-              ref={dialogRef}
-              mode="solo"
-              title="You did it!"
-              message="Game Over! Here's how you got on..."
-              time={time}
-              moves={moves}
-            />
-          ) : (
-            <GameOverDialog
-              ref={dialogRef}
-              mode="multi"
-              playerScores={playerScores}
-              playersNum={playersNum}
-            />
-          )}
-        </main>
-      </GameActionsProvider>
-    );
-  }
-
-  return null;
+        {playersNum === 1 ? (
+          <GameOverDialog
+            ref={dialogRef}
+            mode="solo"
+            title="You did it!"
+            message="Game Over! Here's how you got on..."
+            time={time}
+            moves={moves}
+          />
+        ) : (
+          <GameOverDialog
+            ref={dialogRef}
+            mode="multi"
+            playerScores={playerScores}
+            playersNum={playersNum}
+          />
+        )}
+      </main>
+    </GameActionsProvider>
+  );
 }
 
 export default GameStart;

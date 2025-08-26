@@ -1,34 +1,41 @@
-"use client";
 import React from "react";
 
 import GameSetting from "@/components/GameSetting";
 import GameStart from "@/components/GameStart";
-import useIsGameStarted from "@/hooks/useIsGameStarted";
 
-function HomeContent() {
-  const isGameStarted = useIsGameStarted();
+type HomeSearch = {
+  theme?: string;
+  playersNum?: string;
+  grid?: string;
+};
+
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<HomeSearch>;
+}) {
+  const sp = await searchParams;
+  const theme =
+    sp.theme === "icons"
+      ? "icons"
+      : sp.theme === "numbers"
+      ? "numbers"
+      : undefined;
+  const playersNum = ["1", "2", "3", "4"].includes(String(sp.playersNum))
+    ? (Number(sp.playersNum) as 1 | 2 | 3 | 4)
+    : undefined;
+  const gridSize =
+    sp.grid === "6x6" ? "6x6" : sp.grid === "4x4" ? "4x4" : undefined;
+
+  const isGameStarted = !!theme && !!playersNum && !!gridSize;
 
   return (
     <>
-      <GameStart />
-      {!isGameStarted && (
-        <main className="bg-blue-darker min-h-dvh p-6 sm:py-12 flex flex-col gap-11 sm:gap-[4.6875rem] justify-center">
-          <h1 className="text-700 sm:text-800 text-gray-lighter text-center">
-            memory<span className="sr-only"> game</span>
-          </h1>
-          <GameSetting />
-        </main>
+      {isGameStarted ? (
+        <GameStart theme={theme} playersNum={playersNum} gridSize={gridSize} />
+      ) : (
+        <GameSetting />
       )}
     </>
   );
 }
-
-function Home() {
-  return (
-    <React.Suspense fallback={<div>Loading...</div>}>
-      <HomeContent />
-    </React.Suspense>
-  );
-}
-
-export default Home;

@@ -1,7 +1,6 @@
 import * as React from "react";
 import DialogStat from "../DialogStat";
 import GameButton from "../GameButton";
-import { useRouter } from "next/navigation";
 import { useGameActions } from "@/context/GameActionsContext";
 
 type GameOverDialogProps =
@@ -21,20 +20,12 @@ type GameOverDialogProps =
 const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
   (props, ref) => {
     const { restart } = useGameActions();
-    const router = useRouter();
 
     function handleRestart() {
       if (ref && "current" in ref) {
         ref.current?.close();
       }
       restart();
-    }
-
-    function handleNewGame() {
-      if (ref && "current" in ref) {
-        ref.current?.close();
-      }
-      router.replace("/");
     }
 
     if (props.mode === "multi") {
@@ -101,9 +92,9 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
                 Restart
               </GameButton>
               <GameButton
-                type="button"
+                href="/"
+                replace
                 className="flex-1 py-3.5 px-6 bg-blue-lighter text-500 text-blue-dark hover:bg-blue-medium hover:text-gray-lighter focus-visible:bg-blue-medium focus-visible:text-gray-lighter"
-                onClick={handleNewGame}
               >
                 Setup New Game
               </GameButton>
@@ -144,9 +135,9 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
               Restart
             </GameButton>
             <GameButton
-              type="button"
+              href="/"
+              replace
               className="flex-1 py-3.5 px-6 bg-blue-lighter text-500 text-blue-dark hover:bg-blue-medium hover:text-gray-lighter focus-visible:bg-blue-medium focus-visible:text-gray-lighter"
-              onClick={handleNewGame}
             >
               Setup New Game
             </GameButton>

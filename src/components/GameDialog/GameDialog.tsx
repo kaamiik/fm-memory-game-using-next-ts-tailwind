@@ -3,11 +3,10 @@ import GameButton from "../GameButton";
 
 type GameDialogProps = {
   onRestart?: () => void;
-  onNewGame?: () => void;
 };
 
 function GameDialog(
-  { onRestart, onNewGame }: GameDialogProps,
+  { onRestart }: GameDialogProps,
   ref: React.Ref<HTMLDialogElement>
 ) {
   React.useEffect(() => {
@@ -45,8 +44,9 @@ function GameDialog(
         Restart
       </GameButton>
       <GameButton
-        className="w-full p-3 rounded-full bg-blue-lighter hover:bg-yellow focus:bg-yellow focus:text-gray-lighter hover:text-gray-lighter"
-        onClick={onNewGame}
+        href="/"
+        replace
+        className="inline-block text-center w-full p-3 rounded-full bg-blue-lighter hover:bg-yellow focus:bg-yellow focus:text-gray-lighter hover:text-gray-lighter"
       >
         New Game
       </GameButton>

@@ -1,7 +1,6 @@
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 import GameButton from "../GameButton";
 import GameDialog from "../GameDialog";
@@ -9,7 +8,6 @@ import { useGameActions } from "@/context/GameActionsContext";
 
 function PageHeader() {
   const dialogRef = React.useRef<HTMLDialogElement>(null);
-  const router = useRouter();
   const { restart } = useGameActions();
 
   function openDialog() {
@@ -23,11 +21,6 @@ function PageHeader() {
   function handleRestart() {
     restart();
     closeDialog();
-  }
-
-  function handleNewGame() {
-    closeDialog();
-    router.replace("/");
   }
 
   return (
@@ -64,19 +57,15 @@ function PageHeader() {
             Restart
           </GameButton>
           <GameButton
-            type="button"
+            href="/"
+            replace
             className="py-3.5 px-6 bg-blue-lighter text-500 text-blue-dark hover:bg-blue-medium hover:text-gray-lighter focus-visible:bg-blue-medium focus-visible:text-gray-lighter"
-            onClick={handleNewGame}
           >
             New Game
           </GameButton>
         </div>
       </div>
-      <GameDialog
-        ref={dialogRef}
-        onRestart={handleRestart}
-        onNewGame={handleNewGame}
-      />
+      <GameDialog ref={dialogRef} onRestart={handleRestart} />
     </header>
   );
 }
