@@ -1,4 +1,5 @@
 import type { Card } from "./types/gameTypes";
+import { ICON_ALTS } from "./constants/icons";
 
 export function generateCards(
   gridSize: "4x4" | "6x6",
@@ -47,4 +48,13 @@ function shuffle<T>(arr: T[]): T[] {
 function pickUnique<T>(arr: T[], count: number): T[] {
   const copy = shuffle(arr);
   return copy.slice(0, count);
+}
+
+export function getIconAlt(src: string): string {
+  const match = src.match(/icon(\d+)\.svg$/);
+  if (match) {
+    const n = Number(match[1]);
+    return ICON_ALTS[n] ?? `Icon ${n}`;
+  }
+  return "Icon";
 }

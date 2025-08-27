@@ -121,7 +121,6 @@
   animation: fade-in 0.3s ease-out;
 }
 
-/* Reduced motion alternative for fade-in */
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in {
     animation: none;
@@ -130,7 +129,6 @@
   }
 }
 
-/* Card flip animations with reduced motion support */
 .card-flip {
   transition: transform 0.5s ease-in-out;
 }
@@ -149,7 +147,6 @@
   }
 }
 
-/* Hover transitions with reduced motion support */
 .hover-transition {
   transition: background-color 0.2s ease-in-out;
 }
@@ -160,7 +157,6 @@
   }
 }
 
-/* Loading spinner with reduced motion support */
 .loading-spinner {
   animation: spin 1s linear infinite;
 }

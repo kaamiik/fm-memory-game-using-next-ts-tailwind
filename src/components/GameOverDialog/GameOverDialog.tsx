@@ -49,12 +49,25 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
         .map((score, index) => ({ score, playerId: index + 1 }))
         .sort((a, b) => b.score - a.score);
 
+      const resultsText = sortedPlayers
+        .map((player) => {
+          const isWinner = winners.some((w) => w.playerId === player.playerId);
+          return `Player ${player.playerId}: ${player.score} pairs${
+            isWinner ? " (Winner)" : ""
+          }`;
+        })
+        .join(". ");
+
       return (
         <dialog
           className="w-full max-w-[40.875rem] mx-auto my-auto backdrop:bg-black backdrop:opacity-50 border-0 bg-transparent"
           ref={ref}
         >
           <div className="grid gap-6 sm:gap-10 pt-8 sm:pt-[3.25rem] pb-6 sm:pb-[4.25rem] px-6 sm:px-14 mx-6 rounded-[10px] sm:rounded[20px] text-blue-muted bg-gray-light">
+            <div aria-live="assertive" className="sr-only">
+              {`${title}. ${message} ${resultsText}`}
+            </div>
+
             <div className="text-center">
               <h2 className="text-600 sm:text-900 text-blue-darker">{title}</h2>
               <p>{message}</p>
@@ -112,6 +125,10 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
         ref={ref}
       >
         <div className="grid gap-6 sm:gap-10 pt-8 sm:pt-[3.25rem] pb-6 sm:pb-[4.25rem] px-6 sm:px-14 mx-6 rounded-[10px] sm:rounded[20px] text-blue-muted bg-gray-light">
+          <div aria-live="assertive" className="sr-only">
+            {`${title}. ${message}. Time: ${time}. Moves: ${moves}`}
+          </div>
+
           <div className="text-center">
             <h2 className="text-600 sm:text-900 text-blue-darker">{title}</h2>
             <p>{message}</p>

@@ -25,7 +25,10 @@ function ScoreBoard(props: ScoreBoardProps) {
     return (
       <div className="mt-auto pt-24 pb-16 flex justify-center">
         <div className={cls}>
-          <GameStat label="Time" value={props.time} />
+          <div aria-live="polite" className="sr-only">
+            {`Moves: ${props.moves}`}
+          </div>
+          <GameStat role="timer" label="Time" value={props.time} />
           <GameStat label="Moves" value={props.moves} />
         </div>
       </div>
@@ -34,7 +37,7 @@ function ScoreBoard(props: ScoreBoardProps) {
 
   return (
     <div className="mt-auto pt-24 pb-16 flex justify-center">
-      <div className={cls}>
+      <div className={cls} aria-live="polite">
         {Array.from({ length: props.playersNum }, (_, i) => {
           const playerId = (i + 1) as 1 | 2 | 3 | 4;
           return (
@@ -43,9 +46,6 @@ function ScoreBoard(props: ScoreBoardProps) {
               player={playerId}
               value={props.playerScores[i]}
               activePlayer={props.activePlayerId}
-              aria-current={
-                props.activePlayerId === playerId ? "true" : undefined
-              }
             />
           );
         })}
