@@ -28,6 +28,51 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
       restart();
     }
 
+    function renderActionButtons() {
+      return (
+        <div className="flex flex-col sm:flex-row gap-4">
+          <GameButton
+            type="reset"
+            className="flex-1 py-3.5 px-7 bg-yellow text-500 text-gray-lighter hover:bg-yellow-light focus-visible:bg-yellow-light"
+            onClick={handleRestart}
+          >
+            Restart
+          </GameButton>
+          <GameButton
+            href="/"
+            replace
+            className="flex-1 py-3.5 px-6 bg-blue-lighter text-500 text-blue-dark hover:bg-blue-medium hover:text-gray-lighter focus-visible:bg-blue-medium focus-visible:text-gray-lighter"
+          >
+            Setup New Game
+          </GameButton>
+        </div>
+      );
+    }
+
+    function renderDialogContent(
+      title: string,
+      message: string,
+      announcementText: string,
+      children: React.ReactNode
+    ) {
+      return (
+        <div className="grid gap-6 sm:gap-10 pt-8 sm:pt-[3.25rem] pb-6 sm:pb-[4.25rem] px-6 sm:px-14 mx-6 rounded-[10px] sm:rounded[20px] text-blue-muted bg-gray-light">
+          <div aria-live="assertive" className="sr-only">
+            {announcementText}
+          </div>
+
+          <div className="text-center">
+            <h2 className="text-600 sm:text-900 text-blue-darker">{title}</h2>
+            <p>{message}</p>
+          </div>
+
+          {children}
+
+          {renderActionButtons()}
+        </div>
+      );
+    }
+
     if (props.mode === "multi") {
       const { playerScores, playersNum } = props;
 
@@ -58,108 +103,63 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
         })
         .join(". ");
 
+      const announcementText = `${title}. ${message} ${resultsText}`;
+
+      const multiContent = (
+        <ul className="grid gap-2 sm:gap-4">
+          {sortedPlayers.map((player) => {
+            const isWinner = winners.some(
+              (w) => w.playerId === player.playerId
+            );
+            const label = isWinner
+              ? isTie
+                ? `Player ${player.playerId} (Winner!)`
+                : `Player ${player.playerId} (Winner!)`
+              : `Player ${player.playerId}`;
+
+            return (
+              <li key={player.playerId}>
+                <DialogStat
+                  label={label}
+                  value={`${player.score} Pairs`}
+                  isWinner={isWinner}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      );
+
       return (
         <dialog
           className="w-full max-w-[40.875rem] mx-auto my-auto backdrop:bg-black backdrop:opacity-50 border-0 bg-transparent"
           ref={ref}
         >
-          <div className="grid gap-6 sm:gap-10 pt-8 sm:pt-[3.25rem] pb-6 sm:pb-[4.25rem] px-6 sm:px-14 mx-6 rounded-[10px] sm:rounded[20px] text-blue-muted bg-gray-light">
-            <div aria-live="assertive" className="sr-only">
-              {`${title}. ${message} ${resultsText}`}
-            </div>
-
-            <div className="text-center">
-              <h2 className="text-600 sm:text-900 text-blue-darker">{title}</h2>
-              <p>{message}</p>
-            </div>
-
-            <ul className="grid gap-2 sm:gap-4">
-              {sortedPlayers.map((player) => {
-                const isWinner = winners.some(
-                  (w) => w.playerId === player.playerId
-                );
-                const label = isWinner
-                  ? isTie
-                    ? `Player ${player.playerId} (Winner!)`
-                    : `Player ${player.playerId} (Winner!)`
-                  : `Player ${player.playerId}`;
-
-                return (
-                  <li key={player.playerId}>
-                    <DialogStat
-                      label={label}
-                      value={`${player.score} Pairs`}
-                      isWinner={isWinner}
-                    />
-                  </li>
-                );
-              })}
-            </ul>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <GameButton
-                type="reset"
-                className="flex-1 py-3.5 px-7 bg-yellow text-500 text-gray-lighter hover:bg-yellow-light focus-visible:bg-yellow-light"
-                onClick={handleRestart}
-              >
-                Restart
-              </GameButton>
-              <GameButton
-                href="/"
-                replace
-                className="flex-1 py-3.5 px-6 bg-blue-lighter text-500 text-blue-dark hover:bg-blue-medium hover:text-gray-lighter focus-visible:bg-blue-medium focus-visible:text-gray-lighter"
-              >
-                Setup New Game
-              </GameButton>
-            </div>
-          </div>
+          {renderDialogContent(title, message, announcementText, multiContent)}
         </dialog>
       );
     }
 
     const { title, message, time, moves } = props;
+    const announcementText = `${title}. ${message}. Time: ${time}. Moves: ${moves}`;
+
+    const soloContent = (
+      <ul className="grid gap-2 sm:gap-4">
+        <li>
+          <DialogStat label="Time Elapsed" value={time} />
+        </li>
+        <li>
+          <DialogStat label="Moves Taken" value={`${moves} Moves`} />
+        </li>
+      </ul>
+    );
 
     return (
       <dialog
         className="w-full max-w-[40.875rem] mx-auto my-auto backdrop:bg-black backdrop:opacity-50 border-0 bg-transparent"
         ref={ref}
       >
-        <div className="grid gap-6 sm:gap-10 pt-8 sm:pt-[3.25rem] pb-6 sm:pb-[4.25rem] px-6 sm:px-14 mx-6 rounded-[10px] sm:rounded[20px] text-blue-muted bg-gray-light">
-          <div aria-live="assertive" className="sr-only">
-            {`${title}. ${message}. Time: ${time}. Moves: ${moves}`}
-          </div>
-
-          <div className="text-center">
-            <h2 className="text-600 sm:text-900 text-blue-darker">{title}</h2>
-            <p>{message}</p>
-          </div>
-
-          <ul className="grid gap-2 sm:gap-4">
-            <li>
-              <DialogStat label="Time Elapsed" value={time} />
-            </li>
-            <li>
-              <DialogStat label="Moves Taken" value={`${moves} Moves`} />
-            </li>
-          </ul>
-
-          <div className="flex flex-col sm:flex-row gap-4">
-            <GameButton
-              type="reset"
-              className="flex-1 py-3.5 px-7 bg-yellow text-500 text-gray-lighter hover:bg-yellow-light focus-visible:bg-yellow-light"
-              onClick={handleRestart}
-            >
-              Restart
-            </GameButton>
-            <GameButton
-              href="/"
-              replace
-              className="flex-1 py-3.5 px-6 bg-blue-lighter text-500 text-blue-dark hover:bg-blue-medium hover:text-gray-lighter focus-visible:bg-blue-medium focus-visible:text-gray-lighter"
-            >
-              Setup New Game
-            </GameButton>
-          </div>
-        </div>
+        {renderDialogContent(title, message, announcementText, soloContent)}
       </dialog>
     );
   }
