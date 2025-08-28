@@ -188,6 +188,10 @@ function GameStart({ gridSize, playersNum, theme }: GameStartProps) {
     <GameActionsProvider value={{ restart: handleRestart }}>
       <PageHeader />
       <main className="p-6 sm:p-10 lg:p-9 xl:px-0 grid">
+        <h1 className="sr-only">
+          Memory game, {playersNum === 1 ? "solo" : "multiplayer"}, grid{" "}
+          {gridSize.replace("x", " by ")}, theme {theme}
+        </h1>
         <CardGrid
           gridSize={gridSize}
           cards={gameState.cards}

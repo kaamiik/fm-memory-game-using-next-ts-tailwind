@@ -11,6 +11,7 @@ export default function Loading() {
         color="hsl(37, 98%, 54%)"
         strokeWidth={2.5}
       />
+      <span className="sr-only">Loading</span>
     </div>
   );
 }

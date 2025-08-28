@@ -19,6 +19,7 @@ function CardButton({
   return (
     <button
       type="button"
+      aria-live="polite"
       className={`relative w-full grid aspect-square cursor-pointer rounded-full focus-visible:outline-4 focus-visible:outline-blue-500 focus-visible:outline-offset-1 focus-visible:outline-dotted
         motion-safe:transition-transform motion-safe:duration-500 motion-safe:transform-3d
         motion-reduce:transition-none motion-reduce:duration-0 motion-reduce:transform-none
