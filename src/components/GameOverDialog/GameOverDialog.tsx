@@ -41,7 +41,7 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
           <GameButton
             href="/"
             replace
-            className="flex-1 py-3.5 px-6 bg-blue-lighter text-500 text-blue-dark hover:bg-blue-medium hover:text-gray-lighter focus-visible:bg-blue-medium focus-visible:text-gray-lighter"
+            className="inline-block text-center flex-1 py-3.5 px-6 bg-blue-lighter text-500 text-blue-dark hover:bg-blue-medium hover:text-gray-lighter focus-visible:bg-blue-medium focus-visible:text-gray-lighter"
           >
             Setup New Game
           </GameButton>
