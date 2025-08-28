@@ -48,12 +48,12 @@ function CardGrid({ gridSize, cards, onCardClick }: CardGridProps) {
 
         const srText =
           !card.isFlipped && !card.isMatched
-            ? `Button ${number} row ${row} column ${column}, face down`
+            ? `Number ${number} row ${row} column ${column}, face down`
             : card.isMatched
-            ? `Button ${number}, ${iconAlt} row ${row} column ${column}, matched`
+            ? `Number ${number}, ${iconAlt} row ${row} column ${column}, matched`
             : isIcons
-            ? `Button ${number}, ${iconAlt} row ${row} column ${column}, face up`
-            : `Button ${number} row ${row} column ${column}, face up`;
+            ? `Number ${number}, ${iconAlt} row ${row} column ${column}, face up`
+            : `Number ${number} row ${row} column ${column}, face up`;
         return (
           <CardButton
             key={card.id}
