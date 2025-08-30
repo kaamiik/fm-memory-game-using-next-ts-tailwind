@@ -1,4 +1,5 @@
 import * as React from "react";
+import { saveGameSettings } from "@/app/actions/gameSettingsAction";
 
 import Fieldset from "@/components/Fieldset";
 import GameButton from "@/components/GameButton";
@@ -11,7 +12,7 @@ function GameSetting({ className = "" }: { className?: string }) {
         memory<span className="sr-only"> game</span>
       </h1>
       <form
-        method="get"
+        action={saveGameSettings}
         className={`max-w-[40.875rem] w-full mx-auto p-6 sm:p-14 bg-gray-lighter rounded-[10px] sm:rounded-[20px] ${className}`}
       >
         <div className="flex flex-col gap-6 sm:gap-8">
