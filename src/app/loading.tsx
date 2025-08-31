@@ -1,9 +1,9 @@
-"use client";
-import { Loader } from "react-feather";
+'use client';
+import { Loader } from 'react-feather';
 
 export default function Loading() {
   return (
-    <div className="min-h-dvh grid place-items-center bg-gray-lighter">
+    <div className="bg-gray-lighter grid min-h-dvh place-items-center">
       <Loader
         aria-label="Loading"
         className="loading-spinner"

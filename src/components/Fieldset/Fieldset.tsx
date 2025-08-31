@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 
 type FieldsetProps = {
   legend: string;
@@ -7,9 +7,9 @@ type FieldsetProps = {
 
 function Fieldset({ legend, children }: FieldsetProps) {
   return (
-    <fieldset className="border-0 p-0 m-0">
-      <legend className="mb-3 sm:mb-4 text-350 sm:text-500">{legend}</legend>
-      <div className="flex gap-2.5 sm:gap-8 items-center">{children}</div>
+    <fieldset className="m-0 border-0 p-0">
+      <legend className="text-350 sm:text-500 mb-3 sm:mb-4">{legend}</legend>
+      <div className="flex items-center gap-2.5 sm:gap-8">{children}</div>
     </fieldset>
   );
 }

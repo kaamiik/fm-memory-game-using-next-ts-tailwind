@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default function useTimer() {
   const [seconds, setSeconds] = React.useState(0);
@@ -8,7 +8,7 @@ export default function useTimer() {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
 
-    return `${mins}:${secs.toString().padStart(2, "0")}`;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   }
 
   React.useEffect(() => {

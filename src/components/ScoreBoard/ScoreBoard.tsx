@@ -1,15 +1,15 @@
-import * as React from "react";
-import GameStat from "../GameStat";
+import * as React from 'react';
+import GameStat from '../GameStat';
 
 type ScoreBoardProps =
   | {
-      mode: "solo";
+      mode: 'solo';
       time: string;
       moves: number;
       className?: string;
     }
   | {
-      mode: "multi";
+      mode: 'multi';
       playersNum: 1 | 2 | 3 | 4;
       activePlayerId?: 1 | 2 | 3 | 4;
       playerScores: number[];
@@ -18,12 +18,12 @@ type ScoreBoardProps =
 
 function ScoreBoard(props: ScoreBoardProps) {
   const base =
-    "max-w-[69.375rem] flex-1 flex justify-center gap-6 sm:gap-3 lg:gap-8";
+    'max-w-[69.375rem] flex-1 flex justify-center gap-6 sm:gap-3 lg:gap-8';
   const cls = props.className ? `${base} ${props.className}` : base;
 
-  if (props.mode === "solo") {
+  if (props.mode === 'solo') {
     return (
-      <div className="mt-auto pt-24 pb-16 flex justify-center">
+      <div className="mt-auto flex justify-center pt-24 pb-16">
         <div className={cls}>
           <div aria-live="polite" className="sr-only">
             {`Moves: ${props.moves}`}
@@ -36,7 +36,7 @@ function ScoreBoard(props: ScoreBoardProps) {
   }
 
   return (
-    <div className="mt-auto pt-24 pb-16 flex justify-center">
+    <div className="mt-auto flex justify-center pt-24 pb-16">
       <div className={cls} aria-live="polite">
         {Array.from({ length: props.playersNum }, (_, i) => {
           const playerId = (i + 1) as 1 | 2 | 3 | 4;

@@ -1,19 +1,19 @@
-"use client";
-import * as React from "react";
+'use client';
+import * as React from 'react';
 
-import PageHeader from "../PageHeader";
-import CardGrid from "../CardGrid";
-import ScoreBoard from "../ScoreBoard";
-import useTimer from "@/hooks/useTimer";
-import type { Card } from "@/types/gameTypes";
-import { generateCards } from "@/utils";
-import GameOverDialog from "../GameOverDialog";
-import { GameActionsProvider } from "@/context/GameActionsContext";
+import PageHeader from '../PageHeader';
+import CardGrid from '../CardGrid';
+import ScoreBoard from '../ScoreBoard';
+import useTimer from '@/hooks/useTimer';
+import type { Card } from '@/types/gameTypes';
+import { generateCards } from '@/utils';
+import GameOverDialog from '../GameOverDialog';
+import { GameActionsProvider } from '@/context/GameActionsContext';
 
 type GameStartProps = {
-  gridSize: "4x4" | "6x6";
+  gridSize: '4x4' | '6x6';
   playersNum: 1 | 2 | 3 | 4;
-  theme: "numbers" | "icons";
+  theme: 'numbers' | 'icons';
 };
 
 type GameState = {
@@ -187,10 +187,10 @@ function GameStart({ gridSize, playersNum, theme }: GameStartProps) {
   return (
     <GameActionsProvider value={{ restart: handleRestart }}>
       <PageHeader />
-      <main className="p-6 sm:p-10 lg:p-9 xl:px-0 grid">
+      <main className="grid p-6 sm:p-10 lg:p-9 xl:px-0">
         <h1 className="sr-only">
-          Memory game, {playersNum === 1 ? "solo" : "multiplayer"}, grid{" "}
-          {gridSize.replace("x", " by ")}, theme {theme}
+          Memory game, {playersNum === 1 ? 'solo' : 'multiplayer'}, grid{' '}
+          {gridSize.replace('x', ' by ')}, theme {theme}
         </h1>
         <CardGrid
           gridSize={gridSize}

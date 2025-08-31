@@ -1,19 +1,19 @@
-import * as React from "react";
-import { saveGameSettings } from "@/app/actions/gameSettingsAction";
+import * as React from 'react';
+import { saveGameSettings } from '@/app/actions/gameSettingsAction';
 
-import Fieldset from "@/components/Fieldset";
-import GameButton from "@/components/GameButton";
-import Option from "@/components/Option";
+import Fieldset from '@/components/Fieldset';
+import GameButton from '@/components/GameButton';
+import Option from '@/components/Option';
 
-function GameSetting({ className = "" }: { className?: string }) {
+function GameSetting({ className = '' }: { className?: string }) {
   return (
-    <main className="bg-blue-darker min-h-dvh p-6 sm:py-12 flex flex-col gap-11 sm:gap-[4.6875rem] justify-center">
+    <main className="bg-blue-darker flex min-h-dvh flex-col justify-center gap-11 p-6 sm:gap-[4.6875rem] sm:py-12">
       <h1 className="text-700 sm:text-800 text-gray-lighter text-center">
         memory<span className="sr-only"> game</span>
       </h1>
       <form
         action={saveGameSettings}
-        className={`max-w-[40.875rem] w-full mx-auto p-6 sm:p-14 bg-gray-lighter rounded-[10px] sm:rounded-[20px] ${className}`}
+        className={`bg-gray-lighter mx-auto w-full max-w-[40.875rem] rounded-[10px] p-6 sm:rounded-[20px] sm:p-14 ${className}`}
       >
         <div className="flex flex-col gap-6 sm:gap-8">
           <Fieldset legend="Select Theme">
@@ -53,7 +53,7 @@ function GameSetting({ className = "" }: { className?: string }) {
         </div>
         <GameButton
           type="submit"
-          className="w-full bg-yellow p-2 mt-8 text-450 sm:text-700 text-gray-lighter  hover:bg-yellow-light focus-visible:bg-yellow-light"
+          className="bg-yellow text-450 sm:text-700 text-gray-lighter hover:bg-yellow-light focus-visible:bg-yellow-light mt-8 w-full p-2"
         >
           Start Game
         </GameButton>

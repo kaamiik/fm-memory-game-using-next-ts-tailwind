@@ -1,5 +1,4 @@
-import { Span } from "next/dist/trace";
-import * as React from "react";
+import * as React from 'react';
 
 type CardProps = {
   isFlipped?: boolean;
@@ -12,7 +11,7 @@ function CardButton({
   isFlipped = false,
   isMatched = false,
   children,
-  className = "",
+  className = '',
   srText,
   ...delegated
 }: CardProps) {
@@ -20,29 +19,18 @@ function CardButton({
     <button
       type="button"
       aria-live="polite"
-      className={`relative w-full grid aspect-square cursor-pointer rounded-full focus-visible:outline-4 focus-visible:outline-blue-500 focus-visible:outline-offset-1 focus-visible:outline-dotted
-        motion-safe:transition-transform motion-safe:duration-500 motion-safe:transform-3d
-        motion-reduce:transition-none motion-reduce:duration-0 motion-reduce:transform-none
-        ${isFlipped ? "motion-safe:rotate-y-180" : ""}
-        motion-reduce:rotate-0
-        ${className}`}
+      className={`relative grid aspect-square w-full cursor-pointer rounded-full focus-visible:outline-4 focus-visible:outline-offset-1 focus-visible:outline-blue-500 focus-visible:outline-dotted motion-safe:transition-transform motion-safe:duration-500 motion-safe:transform-3d motion-reduce:transform-none motion-reduce:transition-none motion-reduce:duration-0 ${isFlipped ? 'motion-safe:rotate-y-180' : ''} motion-reduce:rotate-0 ${className}`}
       {...delegated}
     >
       <div
-        className={`absolute inset-0 rounded-full grid place-content-center bg-blue-dark
-          ${
-            !isFlipped && !isMatched
-              ? "hover:bg-blue-medium focus-visible:bg-blue-medium"
-              : ""
-          }
-          motion-safe:backface-hidden
-          ${isFlipped ? "motion-reduce:hidden" : "motion-reduce:grid"}`}
+        className={`bg-blue-dark absolute inset-0 grid place-content-center rounded-full ${
+          !isFlipped && !isMatched
+            ? 'hover:bg-blue-medium focus-visible:bg-blue-medium'
+            : ''
+        } motion-safe:backface-hidden ${isFlipped ? 'motion-reduce:hidden' : 'motion-reduce:grid'}`}
       />
       <div
-        className={`absolute inset-0 text-gray-lighter rounded-full grid place-content-center
-          ${isMatched ? "bg-blue-light" : "bg-yellow"}
-          motion-safe:backface-hidden motion-safe:rotate-y-180 motion-reduce:rotate-0
-          ${isFlipped ? "motion-reduce:grid" : "motion-reduce:hidden"}`}
+        className={`text-gray-lighter absolute inset-0 grid place-content-center rounded-full ${isMatched ? 'bg-blue-light' : 'bg-yellow'} motion-safe:rotate-y-180 motion-safe:backface-hidden motion-reduce:rotate-0 ${isFlipped ? 'motion-reduce:grid' : 'motion-reduce:hidden'}`}
       >
         {children}
       </div>

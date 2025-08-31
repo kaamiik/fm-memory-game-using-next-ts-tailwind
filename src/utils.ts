@@ -1,13 +1,13 @@
-import type { Card } from "./types/gameTypes";
-import { ICON_ALTS } from "./constants/icons";
+import type { Card } from './types/gameTypes';
+import { ICON_ALTS } from './constants/icons';
 
 export function generateCards(
-  gridSize: "4x4" | "6x6",
-  theme: "numbers" | "icons"
+  gridSize: '4x4' | '6x6',
+  theme: 'numbers' | 'icons'
 ): Card[] {
-  const pairCount = gridSize === "4x4" ? 8 : 18;
+  const pairCount = gridSize === '4x4' ? 8 : 18;
 
-  if (theme === "icons") {
+  if (theme === 'icons') {
     const allIcons = Array.from(
       { length: 18 },
       (_, i) => `/assets/icon${i + 1}.svg`
@@ -15,7 +15,6 @@ export function generateCards(
     const chosenIcons: string[] = pickUnique(allIcons, pairCount);
     const paired = [...chosenIcons, ...chosenIcons];
     const shuffled = shuffle(paired);
-    console.log(shuffled);
     return shuffled.map((value, index) => ({
       id: `card-${index + 1}`,
       value,
@@ -32,7 +31,6 @@ export function generateCards(
   }
   const pairedNumbers = [...numbers, ...numbers];
   const shuffled = shuffle(pairedNumbers);
-  console.log(shuffled);
   return shuffled.map((value, index) => ({
     id: `card-${index + 1}`,
     value,
@@ -56,5 +54,5 @@ export function getIconAlt(src: string): string {
     const n = Number(match[1]);
     return ICON_ALTS[n] ?? `Icon ${n}`;
   }
-  return "Icon";
+  return 'Icon';
 }

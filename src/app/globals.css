@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   /* Colors */
@@ -48,31 +48,31 @@
   }
 }
 
-[data-player="1"]::before {
-  content: "P1";
+[data-player='1']::before {
+  content: 'P1';
 }
-[data-player="2"]::before {
-  content: "P2";
+[data-player='2']::before {
+  content: 'P2';
 }
-[data-player="3"]::before {
-  content: "P3";
+[data-player='3']::before {
+  content: 'P3';
 }
-[data-player="4"]::before {
-  content: "P4";
+[data-player='4']::before {
+  content: 'P4';
 }
 
 @media (min-width: 37rem) {
-  [data-player="1"]::before {
-    content: "Player 1";
+  [data-player='1']::before {
+    content: 'Player 1';
   }
-  [data-player="2"]::before {
-    content: "Player 2";
+  [data-player='2']::before {
+    content: 'Player 2';
   }
-  [data-player="3"]::before {
-    content: "Player 3";
+  [data-player='3']::before {
+    content: 'Player 3';
   }
-  [data-player="4"]::before {
-    content: "Player 4";
+  [data-player='4']::before {
+    content: 'Player 4';
   }
 }
 

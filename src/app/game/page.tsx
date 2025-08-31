@@ -1,13 +1,13 @@
-import React from "react";
-import { redirect } from "next/navigation";
-import { getGameSettingsFromCookies } from "@/lib/gameSettings";
-import GameStart from "@/components/GameStart";
+import React from 'react';
+import { redirect } from 'next/navigation';
+import { getGameSettingsFromCookies } from '@/lib/gameSettings';
+import GameStart from '@/components/GameStart';
 
 export default async function GamePage() {
   const settings = await getGameSettingsFromCookies();
 
   if (!settings) {
-    redirect("/");
+    redirect('/');
   }
 
   await new Promise((r) => setTimeout(r, 750));

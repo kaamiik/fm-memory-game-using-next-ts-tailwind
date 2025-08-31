@@ -1,18 +1,18 @@
-import * as React from "react";
-import DialogStat from "../DialogStat";
-import GameButton from "../GameButton";
-import { useGameActions } from "@/context/GameActionsContext";
+import * as React from 'react';
+import DialogStat from '../DialogStat';
+import GameButton from '../GameButton';
+import { useGameActions } from '@/context/GameActionsContext';
 
 type GameOverDialogProps =
   | {
-      mode: "solo";
+      mode: 'solo';
       title: string;
       message: string;
       time: string;
       moves: number;
     }
   | {
-      mode: "multi";
+      mode: 'multi';
       playerScores: number[];
       playersNum: number;
     };
@@ -22,7 +22,7 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
     const { restart } = useGameActions();
 
     function handleRestart() {
-      if (ref && "current" in ref) {
+      if (ref && 'current' in ref) {
         ref.current?.close();
       }
       restart();
@@ -30,10 +30,10 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
 
     function renderActionButtons() {
       return (
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row">
           <GameButton
             type="reset"
-            className="flex-1 py-3.5 px-7 bg-yellow text-500 text-gray-lighter hover:bg-yellow-light focus-visible:bg-yellow-light"
+            className="bg-yellow text-500 text-gray-lighter hover:bg-yellow-light focus-visible:bg-yellow-light flex-1 px-7 py-3.5"
             onClick={handleRestart}
           >
             Restart
@@ -41,7 +41,7 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
           <GameButton
             href="/"
             replace
-            className="inline-block text-center flex-1 py-3.5 px-6 bg-blue-lighter text-500 text-blue-dark hover:bg-blue-medium hover:text-gray-lighter focus-visible:bg-blue-medium focus-visible:text-gray-lighter"
+            className="bg-blue-lighter text-500 text-blue-dark hover:bg-blue-medium hover:text-gray-lighter focus-visible:bg-blue-medium focus-visible:text-gray-lighter inline-block flex-1 px-6 py-3.5 text-center"
           >
             Setup New Game
           </GameButton>
@@ -56,7 +56,7 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
       children: React.ReactNode
     ) {
       return (
-        <div className="grid gap-6 sm:gap-10 pt-8 sm:pt-[3.25rem] pb-6 sm:pb-[4.25rem] px-6 sm:px-14 mx-6 rounded-[10px] sm:rounded[20px] text-blue-muted bg-gray-light">
+        <div className="sm:rounded[20px] text-blue-muted bg-gray-light mx-6 grid gap-6 rounded-[10px] px-6 pt-8 pb-6 sm:gap-10 sm:px-14 sm:pt-[3.25rem] sm:pb-[4.25rem]">
           <div aria-live="assertive" className="sr-only">
             {announcementText}
           </div>
@@ -73,7 +73,7 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
       );
     }
 
-    if (props.mode === "multi") {
+    if (props.mode === 'multi') {
       const { playerScores, playersNum } = props;
 
       const maxScore = Math.max(...playerScores);
@@ -87,7 +87,7 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
         ? "It's a tie!"
         : `Player ${winners[0].playerId} Wins!`;
 
-      const message = "Game over! Here are the results…";
+      const message = 'Game over! Here are the results…';
 
       const sortedPlayers = playerScores
         .slice(0, playersNum)
@@ -98,10 +98,10 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
         .map((player) => {
           const isWinner = winners.some((w) => w.playerId === player.playerId);
           return `Player ${player.playerId}: ${player.score} pairs${
-            isWinner ? " (Winner)" : ""
+            isWinner ? ' (Winner)' : ''
           }`;
         })
-        .join(". ");
+        .join('. ');
 
       const announcementText = `${title}. ${message} ${resultsText}`;
 
@@ -132,7 +132,7 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
 
       return (
         <dialog
-          className="w-full max-w-[40.875rem] mx-auto my-auto backdrop:bg-black backdrop:opacity-50 border-0 bg-transparent"
+          className="mx-auto my-auto w-full max-w-[40.875rem] border-0 bg-transparent backdrop:bg-black backdrop:opacity-50"
           ref={ref}
         >
           {renderDialogContent(title, message, announcementText, multiContent)}
@@ -156,7 +156,7 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
 
     return (
       <dialog
-        className="w-full max-w-[40.875rem] mx-auto my-auto backdrop:bg-black backdrop:opacity-50 border-0 bg-transparent"
+        className="mx-auto my-auto w-full max-w-[40.875rem] border-0 bg-transparent backdrop:bg-black backdrop:opacity-50"
         ref={ref}
       >
         {renderDialogContent(title, message, announcementText, soloContent)}
@@ -165,5 +165,5 @@ const GameOverDialog = React.forwardRef<HTMLDialogElement, GameOverDialogProps>(
   }
 );
 
-GameOverDialog.displayName = "GameOverDialog";
+GameOverDialog.displayName = 'GameOverDialog';
 export default GameOverDialog;

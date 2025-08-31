@@ -1,5 +1,5 @@
-import * as React from "react";
-import GameButton from "../GameButton";
+import * as React from 'react';
+import GameButton from '../GameButton';
 
 type GameDialogProps = {
   onRestart?: () => void;
@@ -10,36 +10,36 @@ function GameDialog(
   ref: React.Ref<HTMLDialogElement>
 ) {
   React.useEffect(() => {
-    const mediaQuery = window.matchMedia("(min-width: 37rem)");
+    const mediaQuery = window.matchMedia('(min-width: 37rem)');
 
     function handleMediaChange(e: MediaQueryListEvent) {
-      if (e.matches && ref && "current" in ref && ref.current?.open) {
+      if (e.matches && ref && 'current' in ref && ref.current?.open) {
         ref.current.close();
       }
     }
 
-    mediaQuery.addEventListener("change", handleMediaChange);
+    mediaQuery.addEventListener('change', handleMediaChange);
 
     return () => {
-      mediaQuery.removeEventListener("change", handleMediaChange);
+      mediaQuery.removeEventListener('change', handleMediaChange);
     };
   }, [ref]);
 
   function closeDialog() {
-    if (ref && "current" in ref) {
+    if (ref && 'current' in ref) {
       ref.current?.close();
     }
   }
 
   return (
     <dialog
-      className="bg-gray-light p-6 text-blue-dark text-450 space-y-4 rounded-[10px] mx-auto my-auto backdrop:bg-black backdrop:opacity-50"
+      className="bg-gray-light text-blue-dark text-450 mx-auto my-auto space-y-4 rounded-[10px] p-6 backdrop:bg-black backdrop:opacity-50"
       ref={ref}
     >
       <GameButton
         type="reset"
         autoFocus
-        className="w-full p-3 rounded-full bg-blue-lighter hover:bg-yellow focus:bg-yellow focus:text-gray-lighter hover:text-gray-lighter"
+        className="bg-blue-lighter hover:bg-yellow focus:bg-yellow focus:text-gray-lighter hover:text-gray-lighter w-full rounded-full p-3"
         onClick={onRestart}
       >
         Restart
@@ -47,13 +47,13 @@ function GameDialog(
       <GameButton
         href="/"
         replace
-        className="inline-block text-center w-full p-3 rounded-full bg-blue-lighter hover:bg-yellow focus:bg-yellow focus:text-gray-lighter hover:text-gray-lighter"
+        className="bg-blue-lighter hover:bg-yellow focus:bg-yellow focus:text-gray-lighter hover:text-gray-lighter inline-block w-full rounded-full p-3 text-center"
       >
         New Game
       </GameButton>
       <GameButton
         type="button"
-        className="w-full p-3 rounded-full bg-blue-lighter hover:bg-yellow focus:bg-yellow focus:text-gray-lighter hover:text-gray-lighter"
+        className="bg-blue-lighter hover:bg-yellow focus:bg-yellow focus:text-gray-lighter hover:text-gray-lighter w-full rounded-full p-3"
         onClick={closeDialog}
       >
         Resume Game

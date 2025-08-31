@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 
 type GameActions = {
   restart: () => void;
@@ -16,7 +16,7 @@ const GameActionsContext = React.createContext<GameActions | undefined>(
 export function useGameActions() {
   const ctx = React.useContext(GameActionsContext);
   if (!ctx)
-    throw new Error("useGameActions must be used within GameActionsProvider");
+    throw new Error('useGameActions must be used within GameActionsProvider');
   return ctx;
 }
 
